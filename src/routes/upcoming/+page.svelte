@@ -4,6 +4,7 @@
 
     let upcomingCompetitions: Array<Competition> = [
         {
+            id: '1',
             title: 'Витязи Подмосковья',
             startDate: new Date(2024, 8, 25),
             endDate: new Date(2024, 8, 26),
@@ -11,6 +12,7 @@
             imagePath: 'https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg'
         },
         {
+            id: '2',
             title: 'Честь Воина',
             startDate: new Date(2024, 10, 4),
             endDate: new Date(2024, 10, 4),
@@ -18,17 +20,18 @@
             imagePath: 'https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg'
         },
         {
+            id: '3',
             title: 'Турнир Номер Три',
             startDate: new Date(2024, 10, 30),
             endDate: new Date(2024, 11, 2),
             address: 'Московская обл., Серпуховский р-н, п. Большевик, Спортивная, 13',
             imagePath: 'https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg'
-            }
+        }
     ];
 </script>
 
 <div class="container">
-    {#each upcomingCompetitions as competition, i}
+    {#each upcomingCompetitions as competition (competition.id)}
         <CompetitionCard {...competition} />
     {:else}
         <h1>No results</h1>
