@@ -1,3 +1,5 @@
+import type { Category } from '$lib/types/competition/Category';
+
 export interface Competition {
     id: string,
     title: string;
@@ -5,4 +7,5 @@ export interface Competition {
     endDate: Date;
     address: string;
     imagePath: string;
+    categories: Array<Category>
 }

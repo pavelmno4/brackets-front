@@ -3,13 +3,14 @@
 
     import type { Competition } from '$lib/types/competition/Competition';
     import image from '$lib/test/competition-image.jpg';
+    import CategoryTable from './CategoryTable.svelte';
 
     export let data: Competition;
 </script>
 
 <div class="container">
     <article class="card">
-        <h1>{data.title}</h1>
+        <h1 class="title">{data.title}</h1>
         <div class="image-and-description">
             <img src={image} alt="Fight of two wrestlers" />
             <div class="description">
@@ -26,6 +27,8 @@
                 <button>Зарегистрироваться</button>
             </div>
         </div>
+        <h3 class="participants-list-name">Списки участников</h3>
+        <CategoryTable categories={data.categories} />
     </article>
 </div>
 
@@ -37,9 +40,14 @@
         align-items: center;
     }
 
+    .title {
+        text-align: center;
+    }
+
     .image-and-description {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
     }
 
     img {
@@ -49,5 +57,10 @@
 
     .description {
         margin: 3vh;
+    }
+
+    .participants-list-name {
+        margin-top: 2vh;
+        justify-content: flex-start;
     }
 </style>
