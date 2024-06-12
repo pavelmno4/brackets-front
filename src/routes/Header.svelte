@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    let activeTab: string = 'upcoming';
 </script>
 
 <header class="container">
@@ -8,8 +8,8 @@
             <li><strong>brackets</strong></li>
         </ul>
         <ul>
-            <li><a href="/upcoming" class="tab contrast" class:active="{$page.url.pathname.includes('upcoming')}">Предстоящие турниры</a></li>
-            <li><a href="/past" class="tab contrast" class:active="{$page.url.pathname.includes('past')}">Прошедшие турнины</a></li>
+            <li><a href="/upcoming" class="tab contrast" on:click={() => activeTab = 'upcoming'} class:active="{activeTab === 'upcoming'}">Предстоящие турниры</a></li>
+            <li><a href="/past" class="tab contrast" on:click={() => activeTab = 'past'} class:active="{activeTab === 'past'}">Прошедшие турнины</a></li>
         </ul>
         <ul>
             <li><a href="/login" class="contrast">Login</a></li>
