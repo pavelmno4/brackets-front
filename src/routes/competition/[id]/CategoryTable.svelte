@@ -6,30 +6,38 @@
 
 <div class="container">
     <table>
+        <tbody>
         {#each categories as category}
             <tr>
                 <th scope="row">{category.yearRange}</th>
                 {#each category.weights as weight}
                     <td>{weight}</td>
                 {/each}
-                <td></td>
             </tr>
         {:else}
             <h2>No results</h2>
         {/each}
+        <tbody>
     </table>
 </div>
 
 <style>
     table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+        border: 1px solid lightgray;
+        border-radius: 6px;
+        border-collapse: separate;
     }
 
-    table th:first-child {
-        position: sticky;
-        left: 0;
-        z-index: 1;
+    @media all and (max-width: 1024px) {
+        table {
+            display: block;
+            overflow: scroll;
+        }
+
+        table th:first-child {
+            position: sticky;
+            left: 0;
+            z-index: 1;
+        }
     }
 </style>

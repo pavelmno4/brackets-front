@@ -24,43 +24,67 @@
                     {/if}
                 </p>
                 <p>{data.address}</p>
-                <button>Зарегистрироваться</button>
+                <button class="light-blue-buttton">Зарегистрироваться</button>
             </div>
         </div>
-        <h3 class="participants-list-name">Списки участников</h3>
+        <h4 class="participants-list-title">Списки участников</h4>
         <CategoryTable categories={data.categories} />
     </article>
 </div>
 
 <style>
     .card {
+        padding-left: 10vh;
+        padding-right: 10vh;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: flex-start;
     }
 
     .title {
-        text-align: center;
+        align-self: center;
     }
 
     .image-and-description {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     img {
         height: 30vh;
-        border: 2px solid #555;
+        border: 1px solid black;
+        border-radius:6px;
     }
 
     .description {
         margin: 3vh;
     }
 
-    .participants-list-name {
+    .light-blue-buttton {
+        color: black;
+        background-color: var(--pico-color-azure-100);
+        border: 1px solid black;
+        width: 100%;
+    }
+
+    .light-blue-buttton:hover {
+        background-color: var(--pico-color-azure-150);
+    }
+
+    .participants-list-title {
         margin-top: 2vh;
-        justify-content: flex-start;
+        font-weight: 500;
+        text-decoration: underline;
+    }
+
+    @media all and (max-width: 500px) {
+        .card {
+            padding-left: 0;
+            padding-right: 0;
+            align-items: center;
+        }
     }
 </style>

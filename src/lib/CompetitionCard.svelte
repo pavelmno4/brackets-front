@@ -31,17 +31,33 @@
 </a>
 
 <style>
+    a {
+        display: block;
+        text-decoration: none;
+    }
+
     .card {
         display: flex;
         flex-wrap: wrap;
+        align-items: flex-start;
     }
 
     img {
         height: 30vh;
-        border: 2px solid #555;
+        border: 1px solid black;
+        border-radius: 6px;
     }
 
     .description {
         margin: 3vh;
+    }
+
+    @media all and (max-width: 1024px) {
+        .card {
+            padding-left: 0;
+            padding-right: 0;
+            flex-direction: column;
+            align-items: center;
+            }
     }
 </style>
