@@ -1,7 +1,10 @@
 <script lang="ts">
+    import { page } from '$app/stores';
     import type { Category } from '$lib/types/competition/Category';
 
     export let categories: Array<Category>;
+
+    $: maleParticipantsBaseUrl = $page.url + '/participants/MALE';
 </script>
 
 <div class="container">
@@ -11,7 +14,7 @@
             <tr>
                 <th scope="row">{category.yearRange}</th>
                 {#each category.weights as weight}
-                    <td>{weight}</td>
+                    <td><a href="{maleParticipantsBaseUrl}/{category.yearRange}/{weight}">{weight}</a></td>
                 {/each}
             </tr>
         {:else}
@@ -25,7 +28,6 @@
     table {
         border: 1px solid lightgray;
         border-radius: 6px;
-        border-collapse: separate;
     }
 
     @media all and (max-width: 1024px) {

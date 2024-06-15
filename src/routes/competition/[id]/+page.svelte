@@ -1,11 +1,14 @@
 <script lang="ts">
     import { locale } from '$lib/const';
 
+    import { page } from '$app/stores';
     import type { Competition } from '$lib/types/competition/Competition';
-    import image from '$lib/test/competition-image.jpg';
     import CategoryTable from './CategoryTable.svelte';
+    import image from '$lib/test/competition-image.jpg';
 
     export let data: Competition;
+
+    $: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 </script>
 
 <div class="container">
@@ -28,7 +31,10 @@
             </div>
         </div>
         <h4 class="participants-list-title">Списки участников</h4>
+        <p class="male-participants">Юноши</p>
         <CategoryTable categories={data.categories} />
+        <p class="female-participants">Девушки</p>
+        <a href="{femaleParticipantsUrl}">Смотреть списки</a>
     </article>
 </div>
 
@@ -80,7 +86,15 @@
         text-decoration: underline;
     }
 
-    @media all and (max-width: 500px) {
+    .male-participants {
+        font-weight: 500;
+    }
+
+    .female-participants {
+        font-weight: 500;
+    }
+
+    @media all and (max-width: 1024px) {
         .card {
             padding-left: 0;
             padding-right: 0;

@@ -1,4 +1,4 @@
 export interface Category {
-    yearRange: string,
-    weights: Array<string>
+    yearRange: string;
+    weights: Array<string>;
 }

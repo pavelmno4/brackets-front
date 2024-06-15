@@ -1,23 +1,10 @@
 <script lang="ts">
+    import type { PageData } from './$types';
     import type { Competition } from '$lib/types/competition/Competition';
     import CompetitionCard from '$lib/CompetitionCard.svelte';
 
-    let pastCompetitions: Array<Competition> = [
-        {
-            id: '4',
-            title: 'Прошедший турнир',
-            startDate: new Date(2024, 4, 25),
-            endDate: new Date(2024, 4, 25),
-            address: 'Московская обл., Серпуховский р-н, п. Большевик, Спортивная, 13',
-            imagePath: 'https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg',
-            categories: [
-                {
-                    yearRange: "2011-2012",
-                    weights: ["32", "34", "38", "42", "46", "50", "55", "60", "66", "66+"]
-                }
-            ]
-        }
-    ];
+    export let data: PageData;
+    $: pastCompetitions = data.competitions satisfies Competition;
 </script>
 
 <div class="container">
