@@ -14,7 +14,7 @@
 
 <div class="container">
     <article class="card">
-        <p>{genderRus} | <nobr>Возрастная группа: {yearRange} г.р. |</nobr> <nobr>Весовая категория: {weightCategory} кг</nobr></p>
+        <h5>{genderRus} | <nobr>Возрастная группа: {yearRange} г.р. |</nobr> <nobr>Весовая категория: {weightCategory} кг</nobr></h5>
         <table>
             <tbody>
                 {#each participants as participant, i}
@@ -24,7 +24,7 @@
                         <td>{participant.team}</td>
                     </tr>
                 {:else}
-                    <h3>Участники отсутствуют</h3>
+                    <h5>Участники отсутствуют</h5>
                 {/each}
             </tbody>
         </table>

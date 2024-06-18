@@ -31,9 +31,9 @@
             </div>
         </div>
         <h4 class="participants-list-title">Списки участников</h4>
-        <p class="male-participants">Юноши</p>
+        <h6 class="male-participants">Юноши</h6>
         <CategoryTable categories={data.categories} />
-        <p class="female-participants">Девушки</p>
+        <h6 class="female-participants">Девушки</h6>
         <a href="{femaleParticipantsUrl}">Смотреть списки</a>
     </article>
 </div>

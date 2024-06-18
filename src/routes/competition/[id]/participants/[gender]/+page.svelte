@@ -12,7 +12,7 @@ export let data: PageData;
 
 <div class="container">
     <article class="card">
-        <p>{genderRus}</p>
+        <h5>{genderRus}</h5>
         <table>
             <tbody>
                 {#each participants as participant, i}
@@ -24,7 +24,7 @@ export let data: PageData;
                         <td>{participant.team}</td>
                     </tr>
                 {:else}
-                    <h3>Участники отсутствуют</h3>
+                    <h5>Участники отсутствуют</h5>
                 {/each}
             </tbody>
         </table>
