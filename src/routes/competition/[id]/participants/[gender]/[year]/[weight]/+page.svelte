@@ -12,7 +12,7 @@
     $: weightCategory = $page.params.weight;
 </script>
 
-<div class="container">
+<section class="category-simple">
     <article class="card">
         <h5>{genderRus} | <nobr>Возрастная группа: {yearRange} г.р. |</nobr> <nobr>Весовая категория: {weightCategory} кг</nobr></h5>
         <table>
@@ -29,7 +29,7 @@
             </tbody>
         </table>
     </article>
-</div>
+</section>
 
 <style>
     .card {

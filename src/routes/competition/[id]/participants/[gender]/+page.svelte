@@ -5,12 +5,12 @@
     import type { Participant } from '$lib/types/competition/Participant';
 
 export let data: PageData;
-    $: participants = data.participants satisfies Array<Participant>;
 
+    $: participants = data.participants satisfies Array<Participant>;
     $: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
 </script>
 
-<div class="container">
+<section class="category">
     <article class="card">
         <h5>{genderRus}</h5>
         <table>
@@ -29,7 +29,7 @@ export let data: PageData;
             </tbody>
         </table>
     </article>
-</div>
+</section>
 
 <style>
     .card {

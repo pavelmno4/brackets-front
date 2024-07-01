@@ -11,7 +11,7 @@
     $: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 </script>
 
-<div class="container">
+<section class="competition">
     <article class="card">
         <h1 class="title">{data.title}</h1>
         <div class="image-and-description">
@@ -27,7 +27,7 @@
                     {/if}
                 </p>
                 <p>{data.address}</p>
-                <button class="light-blue-buttton">Зарегистрироваться</button>
+                <button class="registration-buttton">Зарегистрироваться</button>
             </div>
         </div>
         <h4 class="participants-list-title">Списки участников</h4>
@@ -36,12 +36,10 @@
         <h6 class="female-participants">Девушки</h6>
         <a href="{femaleParticipantsUrl}">Смотреть списки</a>
     </article>
-</div>
+</section>
 
 <style>
     .card {
-        padding-left: 10vh;
-        padding-right: 10vh;
         display: flex;
         flex-direction: column;
         flex-wrap: wrap;
@@ -50,6 +48,7 @@
 
     .title {
         align-self: center;
+        text-align: center;
     }
 
     .image-and-description {
@@ -69,14 +68,14 @@
         margin: 3vh;
     }
 
-    .light-blue-buttton {
+    .registration-buttton {
         color: black;
         background-color: var(--pico-color-azure-100);
         border: 1px solid black;
         width: 100%;
     }
 
-    .light-blue-buttton:hover {
+    .registration-buttton:hover {
         background-color: var(--pico-color-azure-150);
     }
 
@@ -96,8 +95,6 @@
 
     @media all and (max-width: 1024px) {
         .card {
-            padding-left: 0;
-            padding-right: 0;
             align-items: center;
         }
     }

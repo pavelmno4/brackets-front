@@ -18,7 +18,7 @@
                 {/each}
             </tr>
         {:else}
-            <h2>No results</h2>
+            <h2>Данные отсутствуют</h2>
         {/each}
         <tbody>
     </table>
