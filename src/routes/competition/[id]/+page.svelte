@@ -8,6 +8,7 @@
 
     export let data: Competition;
 
+    $: registrationUrl = $page.url + '/registration';
     $: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 </script>
 
@@ -27,14 +28,14 @@
                     {/if}
                 </p>
                 <p>{data.address}</p>
-                <button class="registration-buttton">Зарегистрироваться</button>
+                <a href={registrationUrl} class="registration-link">Регистрация участника</a>
             </div>
         </div>
         <h4 class="participants-list-title">Списки участников</h4>
         <h6 class="male-participants">Юноши</h6>
         <CategoryTable categories={data.categories} />
         <h6 class="female-participants">Девушки</h6>
-        <a href="{femaleParticipantsUrl}">Смотреть списки</a>
+        <a href="{femaleParticipantsUrl}">Смотреть список участниц</a>
     </article>
 </section>
 
@@ -61,21 +62,26 @@
     img {
         height: 30vh;
         border: 1px solid black;
-        border-radius:6px;
+        border-radius: 6px;
     }
 
     .description {
         margin: 3vh;
     }
 
-    .registration-buttton {
+    .registration-link {
         color: black;
         background-color: var(--pico-color-azure-100);
-        border: 1px solid black;
+        border: 1px solid gray;
+        border-radius: 6px;
         width: 100%;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
     }
 
-    .registration-buttton:hover {
+    .registration-link:hover {
         background-color: var(--pico-color-azure-150);
     }
 

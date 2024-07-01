@@ -131,7 +131,7 @@
                 </label>
             </fieldset>
 
-            <button type="submit">Зарегистрироваться</button>
+            <button class="registration-buttton" type="submit">Зарегистрироваться</button>
         </form>
     </article>
 </section>
@@ -150,5 +150,16 @@
 
     .data-processing-consent {
         text-align: center;
+    }
+
+     .registration-buttton {
+         color: black;
+        background-color: var(--pico-color-azure-100);
+        border: 1px solid gray;
+        width: 100%;
+    }
+
+    .registration-buttton:hover {
+        background-color: var(--pico-color-azure-150);
     }
 </style>
