@@ -23,3 +23,10 @@ export async function load() {
         ]
     };
 }
+
+export const actions = {
+    default: async ({ request }) => {
+        const data: FormData = await request.formData()
+        console.log(data)
+    }
+}

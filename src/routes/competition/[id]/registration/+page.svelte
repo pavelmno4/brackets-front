@@ -1,12 +1,17 @@
 <script lang="ts">
+    import { page } from '$app/stores';
+    import { enhance } from '$app/forms';
     import type { PageData } from './$types';
     import type { Gender } from '$lib/types/competition/Gender';
+    import type { SubmitFunction } from '@sveltejs/kit';
+    import Modal from '$lib/Modal.svelte';
 
     export let data: PageData;
 
     $: categoriesMap = new Map(data.categories.map(category => [category.yearRange, category.weights]));
     $: weightCategories = categoriesMap.get(selectedAgeCategory)?.filter(i => i !== '') satisfies Array<string> | undefined;
     $: teams = data.teams satisfies Array<string>;
+    $: competitionUrl = $page.url.toString().replace('/registration', '');
 
     let name: string;
     let birthYear: number;
@@ -16,6 +21,8 @@
     let selectedTeam: string;
     let dataProcessingConsent: boolean = false;
 
+    let showModal: boolean = false;
+
     function validate(event: { currentTarget: EventTarget & HTMLElement }, isValid: () => boolean) {
         if (!isValid()) {
             event.currentTarget.setAttribute('aria-invalid', 'true');
@@ -23,11 +30,18 @@
             event.currentTarget.setAttribute('aria-invalid', 'false');
         }
     }
+
+    let triggerModal: SubmitFunction = () => {
+        return async ({ update }) => {
+            await update();
+            showModal = true;
+        };
+    };
 </script>
 
 <section id="registration">
     <article class="card">
-        <form method="POST">
+        <form method="POST" use:enhance={triggerModal}>
             <h5 class="title">Регистрация участника</h5>
 
             <label for="text">Фамилия, Имя</label>
@@ -121,9 +135,9 @@
                 <label class="data-processing-consent" for="data-processing-consent">
                     <input
                         type="checkbox"
-                        id="data-processing-consent"
-                        name="data-processing-consent"
-                        bind:value={dataProcessingConsent}
+                        id="dataProcessingConsent"
+                        name="dataProcessingConsent"
+                        bind:checked={dataProcessingConsent}
                         aria-invalid={!dataProcessingConsent}
                         required
                     />
@@ -133,6 +147,15 @@
 
             <button class="registration-buttton" type="submit">Зарегистрироваться</button>
         </form>
+
+        <Modal bind:showModal>
+            <article class="modal">
+                <header>
+                    <h4>Участник зарегистрирован</h4>
+                </header>
+                <a href={competitionUrl} class="competition-link">На страницу турнира</a>
+            </article>
+        </Modal>
     </article>
 </section>
 
@@ -152,14 +175,34 @@
         text-align: center;
     }
 
-     .registration-buttton {
-         color: black;
+    .registration-buttton {
+        color: black;
         background-color: var(--pico-color-azure-100);
         border: 1px solid gray;
         width: 100%;
     }
 
     .registration-buttton:hover {
+        background-color: var(--pico-color-azure-150);
+    }
+
+    .modal {
+        text-align: center;
+    }
+
+    .competition-link {
+        color: black;
+        background-color: var(--pico-color-azure-100);
+        border: 1px solid gray;
+        border-radius: 6px;
+        width: 100%;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .competition-link:hover {
         background-color: var(--pico-color-azure-150);
     }
 </style>
