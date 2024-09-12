@@ -13,7 +13,7 @@
     $: teams = data.teams satisfies Array<string>;
     $: competitionUrl = $page.url.toString().replace('/registration', '');
 
-    let name: string;
+    let fullName: string;
     let birthYear: number;
     let selectedGender: Gender;
     let selectedAgeCategory: string;
@@ -50,8 +50,8 @@
                 id="fio"
                 name="fio"
                 maxlength="255"
-                bind:value={name}
-                on:focusout={event => validate(event, () => name !== undefined && name !== '') }
+                bind:value={fullName}
+                on:focusout={event => validate(event, () => fullName !== undefined && fullName !== '') }
                 required
             />
 

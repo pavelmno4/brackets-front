@@ -1,20 +1,10 @@
+import { GET } from "$lib/api/ApiUtils"
+import { mapToCompetition } from "$lib/mapper/CompetitionMapper"
+
 export async function load() {
+    const jsonResponse = await GET('http://localhost:8080/competitions/past')
+    const competitions = jsonResponse.map((response: any) => mapToCompetition(response))
     return {
-        competitions: [
-            {
-                id: '4',
-                title: 'Прошедший турнир',
-                startDate: new Date(2024, 4, 25),
-                endDate: new Date(2024, 4, 25),
-                address: 'Московская обл., Серпуховский р-н, п. Большевик, Спортивная, 13',
-                imagePath: 'https://cdn.shopify.com/static/sample-images/bath_grande_crop_center.jpeg',
-                categories: [
-                    {
-                        yearRange: '2011-2012',
-                        weights: ['32', '34', '38', '42', '46', '50', '55', '60', '66', '66+']
-                    }
-                ]
-            }
-        ]
-    };
+        competitions: competitions
+    }
 }
