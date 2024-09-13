@@ -16,7 +16,7 @@
                 <nobr>{participant.birthYear} г.р.</nobr>
             </td>
             <td>
-                <nobr>{participant.weight} кг</nobr>
+                <nobr>до {participant.weightCategory} кг</nobr>
             </td>
             <td>{participant.team}</td>
         </tr>
