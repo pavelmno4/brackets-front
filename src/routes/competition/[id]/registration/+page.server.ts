@@ -1,32 +1,29 @@
-export async function load() {
+import { GET, POST } from "$lib/api/ApiUtils";
+import { mapToCompetition } from "$lib/mapper/CompetitionMapper";
+
+export async function load({ params }) {
+    const categories = await GET(`http://localhost:8080/competitions/${params.id}`)
+                                .then(response => mapToCompetition(response))
+                                .then(competition => competition.categories);
+    const teams = await GET(`http://localhost:8080/competitions/${params.id}/participants/teams`)
     return {
-        categories: [
-            {
-                yearRange: '2011-2012',
-                weights: ['32', '34', '38', '42', '46', '50', '55', '60', '66', '66+']
-            },
-            {
-                yearRange: '2013-2014',
-                weights: ['32', '34', '38', '42', '46', '50', '55', '60+', '', '']
-            },
-            {
-                yearRange: '2014-2015',
-                weights: ['24', '26', '30', '32', '34', '38', '42', '46', '46+', '']
-            }
-        ],
-        teams: [
-            "Единство",
-            "Южный Форпост",
-            "КОМБАТ Чехов",
-            "Медведь",
-            "Наследие"
-        ]
+        categories: categories,
+        teams: teams
     };
 }
 
 export const actions = {
-    default: async ({ request }) => {
-        const data: FormData = await request.formData()
-        console.log(data)
+    default: async ({ request, params }) => {
+        const data: FormData = await request.formData();
+        POST(`http://localhost:8080/competitions/${params.id}/participants`,
+            {
+                fullName: data.get('fio'),
+                birthYear: data.get('birthYear'),
+                gender: data.get('gender'),
+                ageCategory: data.get('ageCategory'),
+                weightCategory: data.get('weightCategory'),
+                team: data.get('team')
+            }
+        );
     }
 }
