@@ -12,12 +12,16 @@
     {#each upcomingCompetitions as competition (competition.id)}
         <CompetitionCard {...competition} />
     {:else}
-        <h1>No results</h1>
+        <h3 class="message-empty">Турниры не найдены</h3>
     {/each}
 </section>
 
 <style>
     .upcoming {
         flex-direction: column;
+    }
+
+    .message-empty {
+        text-align: center;
     }
 </style>

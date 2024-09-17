@@ -21,7 +21,7 @@
             <td>{participant.team}</td>
         </tr>
     {:else}
-        <h5>Участники отсутствуют</h5>
+        <h5 class="message-empty">Участники отсутствуют</h5>
     {/each}
     </tbody>
 </table>
@@ -29,6 +29,10 @@
 <style>
     table {
         overflow: auto;
+    }
+
+    .message-empty {
+        text-align: center;
     }
 
     @media all and (max-width: 1024px) {
