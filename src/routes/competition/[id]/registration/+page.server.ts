@@ -16,6 +16,7 @@ export const actions = {
     default: async ({ request, params }) => {
         const data: FormData = await request.formData();
         POST(`competitions/${params.id}/participants`,
+            { 'Content-Type': 'application/json' },
             {
                 fullName: data.get('fio'),
                 birthYear: data.get('birthYear'),
@@ -23,7 +24,6 @@ export const actions = {
                 ageCategory: data.get('ageCategory'),
                 weightCategory: data.get('weightCategory'),
                 team: data.get('team')
-            }
-        );
+            });
     }
 }

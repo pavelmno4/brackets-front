@@ -145,7 +145,7 @@
                 </label>
             </fieldset>
 
-            <button class="registration-buttton" type="submit">Зарегистрироваться</button>
+            <button class="registration-button" type="submit">Зарегистрироваться</button>
         </form>
 
         <Modal bind:showModal>
@@ -175,14 +175,14 @@
         text-align: center;
     }
 
-    .registration-buttton {
+    .registration-button {
         color: black;
         background-color: var(--pico-color-azure-100);
         border: 1px solid gray;
         width: 100%;
     }
 
-    .registration-buttton:hover {
+    .registration-button:hover {
         background-color: var(--pico-color-azure-150);
     }
 
