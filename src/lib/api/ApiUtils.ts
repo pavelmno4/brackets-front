@@ -1,44 +1,57 @@
-export async function GET(url: string): Promise<any> {
-    return fetch(url).then(response => response.json());
+import { error } from "@sveltejs/kit";
+
+const baseUrl: string = 'http://localhost:8080';
+
+type RequestOptions = {
+    method: string,
+    path: string,
+    params: URLSearchParams | undefined,
+    headers: any,
+    credentials: 'include' | undefined
+    data: any
 }
 
-export async function POST(url: string, data: any): Promise<any> {
-    const options = { 
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data) 
+async function send(requestOptions: RequestOptions) {
+    const url = new URL(`${baseUrl}/${requestOptions.path}`);
+    requestOptions.params?.forEach((value, parameter) => url.searchParams.set(parameter, value));
+
+    const opts: any = {
+        method: requestOptions.method,
+        credentials: requestOptions.credentials,
+        headers: requestOptions.headers
     };
 
-    return fetch(url, options).then(response => response.json());
-}
+    if (requestOptions.data) {
+        opts.headers['Content-Type'] = 'application/json';
+        opts.body = JSON.stringify(requestOptions.data);
+    }
 
-export async function PATCH(url: string, data: any): Promise<any> {
-    const options = { 
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data) 
-    };
-
-    return fetch(url, options).then(response => response.json());
-}
-
-export async function PUT(url: string, data: any): Promise<any> {
-    const options = { 
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data) 
-    };
-
-    return fetch(url, options).then(response => response.json());
+    return fetch(url.href, opts)
+        .then(response => {
+            if (response.ok) {
+                return response.json()
+            }
+            throw error(response.status)
+        });
 }
 
 
+export async function GET(path: string, params: URLSearchParams | undefined = undefined): Promise<any> {
+    return send({ method: 'GET', path: path, params: params, headers: {}, credentials: 'include', data: undefined });
+}
 
-export async function DELETE(url: string, data: any): Promise<any> {
-    const options = { 
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
-    };
+export async function POST(path: string, data: any): Promise<any> {
+    return send({ method: 'POST', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
+}
 
-    return fetch(url, options);
+export async function PATCH(path: string, data: any): Promise<any> {
+    return send({ method: 'PATCH', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
+}
+
+export async function PUT(path: string, data: any): Promise<any> {
+    return send({ method: 'PUT', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
+}
+
+export async function DELETE(path: string): Promise<any> {
+    return send({ method: 'DELETE', path: path, params: undefined, headers: {}, credentials: 'include', data: undefined });
 }
