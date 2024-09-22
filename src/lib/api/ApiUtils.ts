@@ -7,7 +7,6 @@ type RequestOptions = {
     path: string,
     params: URLSearchParams | undefined,
     headers: any,
-    credentials: 'include' | undefined
     data: any
 }
 
@@ -17,7 +16,6 @@ async function send(requestOptions: RequestOptions) {
 
     const opts: any = {
         method: requestOptions.method,
-        credentials: requestOptions.credentials,
         headers: requestOptions.headers
     };
 
@@ -37,22 +35,22 @@ async function send(requestOptions: RequestOptions) {
 }
 
 
-export async function GET(path: string, params: URLSearchParams | undefined = undefined): Promise<Response> {
-    return send({ method: 'GET', path: path, params: params, headers: {}, credentials: 'include', data: undefined });
+export async function GET(path: string, params: URLSearchParams | undefined = undefined, headers: any = {}): Promise<Response> {
+    return send({ method: 'GET', path: path, params: params, headers: headers, data: undefined });
 }
 
 export async function POST(path: string, headers: any = { 'Content-Type': 'application/json' }, data: any): Promise<Response> {
-    return send({ method: 'POST', path: path, params: undefined, headers: headers, credentials: 'include', data: data });
+    return send({ method: 'POST', path: path, params: undefined, headers: headers, data: data });
 }
 
 export async function PATCH(path: string, data: any): Promise<Response> {
-    return send({ method: 'PATCH', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
+    return send({ method: 'PATCH', path: path, params: undefined, headers: {}, data: data });
 }
 
 export async function PUT(path: string, data: any): Promise<Response> {
-    return send({ method: 'PUT', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
+    return send({ method: 'PUT', path: path, params: undefined, headers: {}, data: data });
 }
 
 export async function DELETE(path: string): Promise<Response> {
-    return send({ method: 'DELETE', path: path, params: undefined, headers: {}, credentials: 'include', data: undefined });
+    return send({ method: 'DELETE', path: path, params: undefined, headers: {}, data: undefined });
 }
