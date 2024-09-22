@@ -6,7 +6,7 @@ export async function load({ params }) {
     if (params.year !== undefined) searchParams.set('ageCategory', params.year);
     if (params.weight !== undefined) searchParams.set('weightCategory', params.weight);
 
-    const participants = await GET(`competitions/${params.id}/participants`, searchParams)
+    const participants = await GET(`competitions/${params.id}/participants`, searchParams).then(response => response.json())
 
     return {
         participants: participants

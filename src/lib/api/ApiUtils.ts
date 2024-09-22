@@ -30,31 +30,29 @@ async function send(requestOptions: RequestOptions) {
     return fetch(url.href, opts)
         .then(response => {
             if (response.ok) {
-                return response.headers.get('Content-Type') === 'application/json'
-                    ? response.json()
-                    : {}
+                return response
             }
             throw error(response.status)
         });
 }
 
 
-export async function GET(path: string, params: URLSearchParams | undefined = undefined): Promise<any> {
+export async function GET(path: string, params: URLSearchParams | undefined = undefined): Promise<Response> {
     return send({ method: 'GET', path: path, params: params, headers: {}, credentials: 'include', data: undefined });
 }
 
-export async function POST(path: string, headers: any = { 'Content-Type': 'application/json' }, data: any): Promise<any> {
+export async function POST(path: string, headers: any = { 'Content-Type': 'application/json' }, data: any): Promise<Response> {
     return send({ method: 'POST', path: path, params: undefined, headers: headers, credentials: 'include', data: data });
 }
 
-export async function PATCH(path: string, data: any): Promise<any> {
+export async function PATCH(path: string, data: any): Promise<Response> {
     return send({ method: 'PATCH', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
 }
 
-export async function PUT(path: string, data: any): Promise<any> {
+export async function PUT(path: string, data: any): Promise<Response> {
     return send({ method: 'PUT', path: path, params: undefined, headers: {}, credentials: 'include', data: data });
 }
 
-export async function DELETE(path: string): Promise<any> {
+export async function DELETE(path: string): Promise<Response> {
     return send({ method: 'DELETE', path: path, params: undefined, headers: {}, credentials: 'include', data: undefined });
 }

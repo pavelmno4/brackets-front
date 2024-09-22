@@ -3,9 +3,10 @@ import { mapToCompetition } from "$lib/mapper/CompetitionMapper";
 
 export async function load({ params }) {
     const categories = await GET(`competitions/${params.id}`)
+        .then(response => response.json())
         .then(response => mapToCompetition(response))
         .then(competition => competition.categories);
-    const teams = await GET(`competitions/${params.id}/participants/teams`)
+    const teams = await GET(`competitions/${params.id}/participants/teams`).then(response => response.json())
     return {
         categories: categories,
         teams: teams

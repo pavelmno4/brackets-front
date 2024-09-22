@@ -1,8 +1,10 @@
 import { POST } from '$lib/api/ApiUtils';
+import { parse } from 'cookie';
 import { fail, redirect, type HttpError } from '@sveltejs/kit';
+import { dev } from '$app/environment';
 
 export const actions = {
-    default: async ({ request }) => {
+    default: async ({ cookies, request }) => {
         const data: FormData = await request.formData();
 
         const credentials = new URLSearchParams();
@@ -14,10 +16,23 @@ export const actions = {
 
 
         try {
-            await POST(`login`, { 'Content-Type': 'application/x-www-form-urlencoded' }, credentials);
-        } catch(error: any) {
+            await POST(`login`, { 'Content-Type': 'application/x-www-form-urlencoded' }, credentials)
+                .then(respose => {
+                    respose.headers.getSetCookie().forEach(cookie => {
+                        const parsedCookie: Record<string, string> = parse(cookie)
+
+                        cookies.set('user_session', parsedCookie.user_session, {
+                            httpOnly: true,
+                            expires: new Date(parsedCookie.Expires),
+                            sameSite: 'strict',
+                            secure: !dev,
+                            path: parsedCookie.Path
+                        })
+                    })
+                });
+        } catch (error: any) {
             return fail(401, error.body)
         }
-        redirect(301,'/upcoming')
+        redirect(301, '/upcoming')
     }
 }
