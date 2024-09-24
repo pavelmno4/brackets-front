@@ -5,35 +5,39 @@
     import type { Competition } from '$lib/types/competition/Competition';
     import CategoryTable from './CategoryTable.svelte';
     import image from '$lib/test/competition-image.jpg';
+	import type { PageData } from './$types';
+	import type { User } from '$lib/types/user/User';
 
-    export let data: Competition;
+    export let data: PageData;
 
+    $: user = data.user satisfies User;
+    $: competition = data.competition satisfies Competition;
     $: registrationUrl = $page.url + '/registration';
     $: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 </script>
 
 <section class="competition">
     <article class="card">
-        <h1 class="title">{data.title}</h1>
+        <h1 class="title">{competition.title}</h1>
         <div class="image-and-description">
             <img src={image} alt="Fight of two wrestlers" />
             <div class="description">
                 <p>
-                    {#if data.startDate.getUTCDate() === data.endDate.getUTCDate()}
-                        {data.startDate.toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })}
-                    {:else if data.startDate.getMonth() === data.endDate.getMonth()}
-                        {data.startDate.getDate()}-{data.endDate.getDate()} {data.endDate.toLocaleString(locale, { month: "short" })} {data.endDate.getFullYear()} г.
+                    {#if competition.startDate.getUTCDate() === competition.endDate.getUTCDate()}
+                        {competition.startDate.toLocaleDateString(locale, { day: "numeric", month: "short", year: "numeric" })}
+                    {:else if competition.startDate.getMonth() === competition.endDate.getMonth()}
+                        {competition.startDate.getDate()}-{competition.endDate.getDate()} {competition.endDate.toLocaleString(locale, { month: "short" })} {competition.endDate.getFullYear()} г.
                     {:else}
-                        {data.startDate.getDate()} {data.startDate.toLocaleString(locale, { month: "short" })} - {data.endDate.getDate()} {data.endDate.toLocaleString(locale, { month: "short" })} {data.endDate.getFullYear()} г.
+                        {competition.startDate.getDate()} {competition.startDate.toLocaleString(locale, { month: "short" })} - {competition.endDate.getDate()} {competition.endDate.toLocaleString(locale, { month: "short" })} {competition.endDate.getFullYear()} г.
                     {/if}
                 </p>
-                <p>{data.address}</p>
+                <p>{competition.address}</p>
                 <a href={registrationUrl} class="registration-link">Регистрация участника</a>
             </div>
         </div>
         <h4 class="participants-list-title">Списки участников</h4>
         <h6 class="male-participants">Юноши</h6>
-        <CategoryTable categories={data.categories} />
+        <CategoryTable categories={competition.categories} />
         <h6 class="female-participants">Девушки</h6>
         <a href="{femaleParticipantsUrl}">Смотреть список участниц</a>
     </article>
