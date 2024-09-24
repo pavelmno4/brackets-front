@@ -1,9 +1,12 @@
 <script lang="ts">
-    import Header from './Header.svelte';
+	import type { LayoutData } from './$types';
+	import Header from './Header.svelte';
+
+	export let data: LayoutData;
 </script>
 
-<Header />
+<Header user={data.user} />
 
 <main class="container">
-    <slot />
+	<slot />
 </main>

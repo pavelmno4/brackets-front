@@ -1,5 +1,9 @@
 <script lang="ts">
+	import type { User } from "$lib/types/user/User";
+
     let activeTab: string = 'upcoming';
+
+    export let user: User;
 </script>
 
 <header class="container">
@@ -12,7 +16,13 @@
             <li><a href="/past" class="tab contrast" on:click={() => activeTab = 'past'} class:active="{activeTab === 'past'}">Прошедшие турнины</a></li>
         </ul>
         <ul>
-            <li><a href="/login" class="contrast">Login</a></li>
+            <li>
+                {#if user === undefined}
+                    <a href="/login" class="contrast">Login</a>
+                {:else}
+                    <a data-sveltekit-reload href="/logout" class="contrast">Logout</a>
+                {/if}
+            </li>
         </ul>
     </nav>
 </header>
