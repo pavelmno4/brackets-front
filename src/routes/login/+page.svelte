@@ -1,16 +1,9 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { validate } from '$lib/util/PageFunction';
 
 	let login: string;
 	let password: string;
-
-	function validate(event: { currentTarget: EventTarget & HTMLElement }, isValid: () => boolean) {
-		if (!isValid()) {
-			event.currentTarget.setAttribute('aria-invalid', 'true');
-		} else {
-			event.currentTarget.setAttribute('aria-invalid', 'false');
-		}
-	}
 </script>
 
 <section id="registration">

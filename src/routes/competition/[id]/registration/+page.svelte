@@ -5,6 +5,7 @@
     import type { Gender } from '$lib/types/competition/Gender';
     import type { SubmitFunction } from '@sveltejs/kit';
     import Modal from '$lib/Modal.svelte';
+	import { validate } from '$lib/util/PageFunction';
 
     export let data: PageData;
 
@@ -22,14 +23,6 @@
     let dataProcessingConsent: boolean = false;
 
     let showModal: boolean = false;
-
-    function validate(event: { currentTarget: EventTarget & HTMLElement }, isValid: () => boolean) {
-        if (!isValid()) {
-            event.currentTarget.setAttribute('aria-invalid', 'true');
-        } else {
-            event.currentTarget.setAttribute('aria-invalid', 'false');
-        }
-    }
 
     let triggerModal: SubmitFunction = () => {
         return async ({ update }) => {
