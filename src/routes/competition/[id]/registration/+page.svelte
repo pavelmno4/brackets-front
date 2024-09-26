@@ -42,6 +42,7 @@
                 type="text"
                 id="fio"
                 name="fio"
+                minlength="1"
                 maxlength="255"
                 bind:value={fullName}
                 on:focusout={event => validate(event, () => fullName !== undefined && fullName !== '') }

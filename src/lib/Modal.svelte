@@ -4,6 +4,8 @@
     let dialog: HTMLDialogElement;
 
     $: if (dialog && showModal) dialog.showModal();
+
+    const closeModal = () => dialog.close();
 </script>
 
 <!-- see https://svelte.dev/examples/modal -->
@@ -12,6 +14,6 @@
     on:close={() => (showModal = false)}
     autofocus
 >
-    <slot />
+    <slot { closeModal } />
 </dialog>
 
