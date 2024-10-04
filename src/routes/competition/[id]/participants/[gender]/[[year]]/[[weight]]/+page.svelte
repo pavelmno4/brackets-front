@@ -20,7 +20,7 @@
 		{#if yearRange !== undefined && weightCategory !== undefined}
 			<ParticipantsTable {user} {genderRus} {yearRange} {weightCategory} {participants} />
 		{:else}
-			<HeterogeneousParticipantsTable {genderRus} {participants} />
+			<HeterogeneousParticipantsTable {user} {genderRus} {participants} />
 		{/if}
 	</article>
 </section>
