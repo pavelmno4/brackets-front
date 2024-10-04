@@ -1,17 +1,29 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import { validate } from '$lib/util/PageFunction';
+	import type { SubmitFunction } from '@sveltejs/kit';
 
+	export let id: string | undefined;
 	export let fullName: string | undefined;
 	export let team: string | undefined;
 	export let weight: number | undefined;
 	export let closeModal: () => void;
+
+	const submit: SubmitFunction = ({ action, cancel }) => {
+		if (action.search === '?/close') cancel();
+
+		return async ({ update }) => {
+			await update({ reset: false });
+		};
+	};
 </script>
 
-<form>
+<form method="POST" use:enhance={submit}>
 	<header>
 		<table>
 			<tbody>
 				<tr class="row">
+					<td><input type="hidden" name="id" value={id} /></td>
 					<td>
 						<input
 							type="text"
@@ -46,8 +58,8 @@
 		</table>
 	</header>
 	<footer>
-		<button class="button-cancel" on:click={closeModal}>Отмена</button>
-		<button class="button-confirm">Сохранить</button>
+		<button class="button-confirm" formaction="?/patch" on:click={closeModal}>Сохранить</button>
+		<button class="button-cancel" formaction="?/close" on:click={closeModal}>Отмена</button>
 	</footer>
 </form>
 

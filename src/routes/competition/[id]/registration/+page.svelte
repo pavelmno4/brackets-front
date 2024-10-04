@@ -24,7 +24,7 @@
 
     let showModal: boolean = false;
 
-    let triggerModal: SubmitFunction = () => {
+    const submit: SubmitFunction = () => {
         return async ({ update }) => {
             await update();
             showModal = true;
@@ -34,7 +34,7 @@
 
 <section id="registration">
     <article class="card">
-        <form method="POST" use:enhance={triggerModal}>
+        <form method="POST" use:enhance={submit}>
             <h5 class="title">Регистрация участника</h5>
 
             <label for="text">Фамилия, Имя</label>

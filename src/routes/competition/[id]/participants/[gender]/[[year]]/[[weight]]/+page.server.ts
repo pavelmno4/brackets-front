@@ -14,11 +14,11 @@ export async function load({ params }) {
 }
 
 export const actions = {
-    default: async ({ cookies, request, params }) => {
+    patch: async ({ cookies, request, params }) => {
         const user_session = cookies.get('user_session');
         const data: FormData = await request.formData();
 
-        const participant = PATCH(`competitions/${params.id}/participants/${data.get('id')}`,
+        return await PATCH(`competitions/${params.id}/participants/${data.get('id')}`,
             {
                 'Content-Type': 'application/json',
                 'Cookie': `user_session=${user_session}`
@@ -28,7 +28,5 @@ export const actions = {
                 weight: data.get('weight')
             })
             .then(response => response.json());
-
-        return { participant: participant };
     }
 }

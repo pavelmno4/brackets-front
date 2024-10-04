@@ -31,7 +31,7 @@
 				<td>{participant.team}</td>
 				{#if userIsEditor}
 					<td class="editor-column">
-						<div class="weight-container">{participant.weight ? participant.weight : '-'}</div>
+						<div class="weight-container">{participant.weight ? participant.weight : '----'}</div>
 						<button
 							on:click={() => {
 								editedParticipant = participant;
@@ -50,6 +50,7 @@
 
 <Modal bind:showModal let:closeModal>
 	<EditParticipant
+		id={editedParticipant?.id}
 		fullName={editedParticipant?.fullName}
 		team={editedParticipant?.team}
 		weight={editedParticipant?.weight}
