@@ -3,7 +3,7 @@
 	import type { Participant } from '$lib/types/competition/Participant';
 	import { Role } from '$lib/types/user/Role';
 	import type { User } from '$lib/types/user/User';
-	import EditParticipant from '../EditParticipant.svelte';
+	import EditParticipant from './EditParticipant.svelte';
 
 	export let user: User;
 	export let genderRus: string;

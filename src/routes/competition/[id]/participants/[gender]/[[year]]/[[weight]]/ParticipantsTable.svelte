@@ -3,7 +3,7 @@
 	import type { User } from '$lib/types/user/User';
 	import { Role } from '$lib/types/user/Role';
 	import Modal from '$lib/Modal.svelte';
-	import EditParticipant from '../EditParticipant.svelte';
+	import EditParticipant from './EditParticipant.svelte';
 
 	export let user: User;
 	export let genderRus: string;
