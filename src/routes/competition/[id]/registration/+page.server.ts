@@ -16,6 +16,7 @@ export async function load({ params }) {
 export const actions = {
     default: async ({ request, params }) => {
         const data: FormData = await request.formData();
+
         POST(`competitions/${params.id}/participants`,
             { 'Content-Type': 'application/json' },
             {

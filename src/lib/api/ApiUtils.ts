@@ -43,8 +43,8 @@ export async function POST(path: string, headers: any = { 'Content-Type': 'appli
     return send({ method: 'POST', path: path, params: undefined, headers: headers, data: data });
 }
 
-export async function PATCH(path: string, data: any): Promise<Response> {
-    return send({ method: 'PATCH', path: path, params: undefined, headers: {}, data: data });
+export async function PATCH(path: string, headers: any = {}, data: any): Promise<Response> {
+    return send({ method: 'PATCH', path: path, params: undefined, headers: headers, data: data });
 }
 
 export async function PUT(path: string, data: any): Promise<Response> {

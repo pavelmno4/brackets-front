@@ -1,4 +1,4 @@
-import { GET } from "$lib/api/ApiUtils";
+import { GET, PATCH } from "$lib/api/ApiUtils";
 
 export async function load({ params }) {
     const searchParams: URLSearchParams = new URLSearchParams();
@@ -11,4 +11,24 @@ export async function load({ params }) {
     return {
         participants: participants
     };
+}
+
+export const actions = {
+    default: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        const participant = PATCH(`competitions/${params.id}/participants/${data.get('id')}`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {
+                fullName: data.get('fullName'),
+                weight: data.get('weight')
+            })
+            .then(response => response.json());
+
+        return { participant: participant };
+    }
 }
