@@ -32,6 +32,11 @@
     };
 </script>
 
+<nav aria-label="breadcrumb">
+	<ul>
+		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
+	</ul>
+</nav>
 <section id="registration">
     <article class="card">
         <form method="POST" use:enhance={submit}>

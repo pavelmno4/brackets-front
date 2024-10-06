@@ -13,8 +13,16 @@
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
+
+	$: competitionPathName = $page.url.pathname.match(/^.*\/competition\/.{36}/)?.[0]
+	$: competitionUrl = competitionPathName ? new URL(competitionPathName, $page.url.origin).href : undefined;
 </script>
 
+<nav aria-label="breadcrumb">
+	<ul>
+		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
+	</ul>
+</nav>
 <section class="category-simple">
 	<article class="card">
 		{#if yearRange !== undefined && weightCategory !== undefined}

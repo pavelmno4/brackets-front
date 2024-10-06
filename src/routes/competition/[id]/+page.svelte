@@ -6,11 +6,9 @@
     import CategoryTable from './CategoryTable.svelte';
     import image from '$lib/test/competition-image.jpg';
 	import type { PageData } from './$types';
-	import type { User } from '$lib/types/user/User';
 
     export let data: PageData;
 
-    $: user = data.user satisfies User;
     $: competition = data.competition satisfies Competition;
     $: registrationUrl = $page.url + '/registration';
     $: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
