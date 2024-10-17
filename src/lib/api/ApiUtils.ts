@@ -1,6 +1,5 @@
 import { error } from "@sveltejs/kit";
-
-const baseUrl: string = 'http://localhost:8080';
+import { BACKEND_BASE_URL } from '$env/static/private'
 
 type RequestOptions = {
     method: string,
@@ -11,7 +10,7 @@ type RequestOptions = {
 }
 
 async function send(requestOptions: RequestOptions) {
-    const url = new URL(`${baseUrl}/${requestOptions.path}`);
+    const url = new URL(`${BACKEND_BASE_URL}/${requestOptions.path}`);
     requestOptions.params?.forEach((value, parameter) => url.searchParams.set(parameter, value));
 
     const opts: any = {
