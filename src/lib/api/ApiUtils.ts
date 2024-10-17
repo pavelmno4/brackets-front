@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { BACKEND_BASE_URL } from '$env/static/private'
+import { env } from '$env/dynamic/private';
 
 type RequestOptions = {
     method: string,
@@ -10,7 +10,7 @@ type RequestOptions = {
 }
 
 async function send(requestOptions: RequestOptions) {
-    const url = new URL(`${BACKEND_BASE_URL}/${requestOptions.path}`);
+    const url = new URL(`${env.BACKEND_BASE_URL}/${requestOptions.path}`);
     requestOptions.params?.forEach((value, parameter) => url.searchParams.set(parameter, value));
 
     const opts: any = {
