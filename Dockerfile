@@ -10,11 +10,15 @@ COPY --from=builder /app/build/ build/
 COPY --from=builder /app/node_modules node_modules/
 COPY --from=builder /app/package.json .
 
-ENV BACKEND_BASE_URL http://localhost:8080
+ENV BACKEND_BASE_URL=http://localhost:8080
 ENV NODE_ENV=production
+ARG ORIGIN
 
 EXPOSE 3000
 
 USER node
 
-CMD ["node","build"]
+CMD ORIGIN=${ORIGIN} \
+PROTOCOL_HEADER=x-forwarded-proto \
+HOST_HEADER=x-forwarded-host \
+node build
