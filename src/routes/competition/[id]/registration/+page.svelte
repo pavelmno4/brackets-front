@@ -175,7 +175,7 @@
 		<Modal bind:showModal>
 			<article class="modal">
 				<header>
-					<h4>Участник зарегистрирован</h4>
+					<h4>Участник успешно зарегистрирован</h4>
 				</header>
 				<a href={competitionUrl} class="competition-link">На страницу турнира</a>
 			</article>
@@ -208,7 +208,7 @@
 	}
 
 	.data-processing-consent-text {
-		text-align: start;
+		text-align: justify;
 		font-size: 70%;
 	}
 
