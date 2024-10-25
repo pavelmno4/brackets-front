@@ -76,7 +76,7 @@
 	.edit-button {
 		background-color: transparent;
 		background-image: url(/edit.svg);
-		background-size: 30px;
+		background-size: 27px;
 		background-repeat: no-repeat;
 		background-position: center;
 		border: 2px solid black;

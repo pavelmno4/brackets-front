@@ -37,7 +37,7 @@
 								editedParticipant = participant;
 								showModal = true;
 							}}
-							class="editor-button">edit</button
+							class="edit-button"></button
 						>
 					</td>
 				{/if}
@@ -73,15 +73,18 @@
 		align-items: center;
 	}
 
-	.editor-button {
-		color: gray;
-		background-color: var(--pico-color-slate-100);
-		border: 1px solid var(--pico-color-slate-100);
+	.edit-button {
+		background-color: transparent;
+		background-image: url(/edit.svg);
+		background-size: 27px;
+		background-repeat: no-repeat;
+		background-position: center;
+		border: 2px solid black;
 	}
 
-	.editor-button:hover {
-		background-color: var(--pico-color-slate-50);
-		border: 1px solid var(--pico-color-slate-50);
+	.edit-button:hover {
+		background-color: var(--pico-color-zinc-50);
+		border: 2px solid black;
 	}
 
 	@media all and (max-width: 1024px) {
