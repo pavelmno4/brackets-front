@@ -25,6 +25,7 @@ export const actions = {
             },
             {
                 fullName: data.get('fullName'),
+                team: data.get('team'),
                 weight: data.get('weight')
             })
             .then(response => response.json());

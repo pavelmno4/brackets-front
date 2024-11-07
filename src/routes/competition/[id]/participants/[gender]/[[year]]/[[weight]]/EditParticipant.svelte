@@ -35,10 +35,22 @@
 							bind:value={fullName}
 							on:input={(event) => validate(event, () => fullName !== '')}
 							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
 						/>
 					</td>
 					<td>
-						<input type="text" id="team" name="team" maxlength="255" value={team} disabled />
+						<input
+							type="text"
+							id="team"
+							name="team"
+							minlength="1"
+							maxlength="255"
+							aria-invalid="spelling"
+							bind:value={team}
+							on:input={(event) => validate(event, () => team !== '')}
+							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
+						/>
 					</td>
 					<td>
 						<input
@@ -51,6 +63,7 @@
 							on:input={(event) =>
 								validate(event, () => weight?.toString()?.match(/^\d{2,3}\.\d$/) != null)}
 							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
 						/>
 					</td>
 				</tr>
