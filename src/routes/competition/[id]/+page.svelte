@@ -4,12 +4,14 @@
 	import type { Competition } from '$lib/types/competition/Competition';
 	import CategoryTable from './CategoryTable.svelte';
 	import type { PageData } from './$types';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
 	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
+	$: isUpcomingCompetiiton = competition.endDate < new Date();
 </script>
 
 <section class="competition">
@@ -38,7 +40,13 @@
 					{/if}
 				</p>
 				<p>{competition.address}</p>
-				<a href={registrationUrl} class="registration-link">Регистрация участника</a>
+				<button
+					class="registration-button"
+					on:click={() => goto(registrationUrl)}
+					disabled={isUpcomingCompetiiton}
+				>
+					Регистрация участника
+				</button>
 			</div>
 		</div>
 		<h4 class="participants-list-title">Списки участников</h4>
@@ -79,7 +87,7 @@
 		margin: 3vh;
 	}
 
-	.registration-link {
+	.registration-button {
 		color: black;
 		background-color: var(--pico-color-azure-100);
 		border: 1px solid gray;
@@ -91,7 +99,7 @@
 		display: inline-block;
 	}
 
-	.registration-link:hover {
+	.registration-button:hover {
 		background-color: var(--pico-color-azure-150);
 	}
 
