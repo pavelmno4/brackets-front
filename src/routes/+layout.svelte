@@ -7,6 +7,10 @@
 
 <Header user={data.user} />
 
+<svelte:head>
+	<title>Brackets</title>
+</svelte:head>
+
 <main class="container">
 	<slot />
 </main>
