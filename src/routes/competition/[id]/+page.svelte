@@ -5,6 +5,7 @@
 	import CategoryTable from './CategoryTable.svelte';
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
+	import { Role } from '$lib/types/user/Role';
 
 	export let data: PageData;
 
@@ -12,13 +13,14 @@
 	$: registrationUrl = $page.url + '/registration';
 	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 	$: isUpcomingCompetiiton = competition.endDate < new Date();
+	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 </script>
 
 <section class="competition">
 	<article class="card">
 		<h1 class="title">{competition.title}</h1>
 		<div class="image-and-description">
-			<img src={competition.imagePath} alt="Fight of two wrestlers" />
+			<img src={competition.imagePath} alt="Competition poster" />
 			<div class="description">
 				<p>
 					{#if competition.startDate.getUTCDate() === competition.endDate.getUTCDate()}
@@ -47,6 +49,11 @@
 				>
 					Регистрация участника
 				</button>
+				{#if userIsEditor}
+					<a href="/api/competition/{competition.id}/grid" class="download-grid-button">
+						Скачать турнирные сетки
+					</a>
+				{/if}
 			</div>
 		</div>
 		<h4 class="participants-list-title">Списки участников</h4>
@@ -101,6 +108,23 @@
 
 	.registration-button:hover {
 		background-color: var(--pico-color-azure-150);
+	}
+
+	.download-grid-button {
+		align-self: center;
+		color: black;
+		background-color: var(--pico-color-lime-200);
+		border: 1px solid gray;
+		border-radius: 6px;
+		margin-top: 15px;
+		padding: 14px 25px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.download-grid-button:hover {
+		background-color: var(--pico-color-lime-300);
 	}
 
 	.participants-list-title {
