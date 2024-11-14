@@ -6,6 +6,7 @@
 	import type { PageData } from './$types';
 	import { goto } from '$app/navigation';
 	import { Role } from '$lib/types/user/Role';
+	import { redirect } from '@sveltejs/kit';
 
 	export let data: PageData;
 
@@ -14,6 +15,26 @@
 	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 	$: isUpcomingCompetiiton = competition.endDate < new Date();
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
+
+	function generateGrid() {
+		fetch(`/api/competition/${competition.id}/grid`, { method: 'POST' });
+
+		redirect(301, $page.url);
+	}
+
+	async function downloadGrid() {
+		let link = document.createElement('a');
+
+		await fetch(`/api/competition/${competition.id}/grid`)
+			.then((grid) => grid.blob())
+			.then((blob) => (link.href = URL.createObjectURL(blob)));
+
+		link.download = `competition_grid_${competition.id}`;
+		link.click();
+		URL.revokeObjectURL(link.href);
+
+		redirect(301, $page.url);
+	}
 </script>
 
 <section class="competition">
@@ -50,9 +71,12 @@
 					Регистрация участника
 				</button>
 				{#if userIsEditor}
-					<a href="/api/competition/{competition.id}/grid" class="download-grid-button">
+					<button class="generate-grid-button" on:click={generateGrid}>
+						Сгенерировать турнирные сетки
+					</button>
+					<button class="download-grid-button" on:click={downloadGrid}>
 						Скачать турнирные сетки
-					</a>
+					</button>
 				{/if}
 			</div>
 		</div>
@@ -110,10 +134,25 @@
 		background-color: var(--pico-color-azure-150);
 	}
 
+	.generate-grid-button {
+		align-self: center;
+		background-color: var(--pico-color-azure-500);
+		border: 1px solid gray;
+		border-radius: 6px;
+		margin-top: 15px;
+		padding: 14px 25px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.generate-grid-button:hover {
+		background-color: var(--pico-color-azure-600);
+	}
+
 	.download-grid-button {
 		align-self: center;
-		color: black;
-		background-color: var(--pico-color-lime-200);
+		background-color: var(--pico-color-azure-500);
 		border: 1px solid gray;
 		border-radius: 6px;
 		margin-top: 15px;
@@ -124,7 +163,7 @@
 	}
 
 	.download-grid-button:hover {
-		background-color: var(--pico-color-lime-300);
+		background-color: var(--pico-color-azure-600);
 	}
 
 	.participants-list-title {
