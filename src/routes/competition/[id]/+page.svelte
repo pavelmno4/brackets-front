@@ -21,20 +21,6 @@
 
 		redirect(301, $page.url);
 	}
-
-	async function downloadGrid() {
-		let link = document.createElement('a');
-
-		await fetch(`/api/competition/${competition.id}/grid`)
-			.then((grid) => grid.blob())
-			.then((blob) => (link.href = URL.createObjectURL(blob)));
-
-		link.download = `competition_grid_${competition.id}`;
-		link.click();
-		URL.revokeObjectURL(link.href);
-
-		redirect(301, $page.url);
-	}
 </script>
 
 <section class="competition">
@@ -74,9 +60,13 @@
 					<button class="generate-grid-button" on:click={generateGrid}>
 						Сгенерировать турнирные сетки
 					</button>
-					<button class="download-grid-button" on:click={downloadGrid}>
+					<a
+						href="https://bracket-s.ru/zip/competition_grid_{competition.id}.zip"
+						class="download-grid-button"
+						download
+					>
 						Скачать турнирные сетки
-					</button>
+					</a>
 				{/if}
 			</div>
 		</div>
@@ -152,6 +142,7 @@
 
 	.download-grid-button {
 		align-self: center;
+		color: white;
 		background-color: var(--pico-color-azure-500);
 		border: 1px solid gray;
 		border-radius: 6px;
