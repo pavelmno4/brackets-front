@@ -1,38 +1,28 @@
-# create-svelte
+### Application for Creating Tournament Brackets  
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+This app helps you to:
+1. Create a competition with a brief description.
+2. Allow participants to register for the competition.
+3. Generate tournament brackets.  
 
-## Creating a project
+This is the frontend part of the Brackets app.
 
-If you're seeing this, you've probably already done this step. Congrats!
+To view the backend, visit the [brackets-back](https://github.com/pavelmno4/brackets-back) repository.
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Set up the following environment variables and start the app:
+| variable         | type   | required |
+|------------------|--------|----------|
+| BACKEND_BASE_URL | text   | true     |
 
-# create a new project in my-app
-npm create svelte@latest my-app
+For developing run:
+`npm run dev`
+
+For buid docker-image:
 ```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+docker buildx build \
+--builder=extended_driver \
+--platform linux/arm64 \
+--build-arg ORIGIN=https://your-domain.org \
+--output type=docker \
+--tag brackets-front:1.0.0 .
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
