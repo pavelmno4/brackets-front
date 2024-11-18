@@ -6,6 +6,7 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import Modal from '$lib/Modal.svelte';
 	import { validate } from '$lib/util/PageFunction';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -169,7 +170,7 @@
 				</label>
 			</fieldset>
 
-			<button class="registration-button" type="submit">Зарегистрироваться</button>
+			<button type="submit">Зарегистрироваться</button>
 		</form>
 
 		<Modal bind:showModal>
@@ -177,7 +178,7 @@
 				<header>
 					<h4>Участник успешно зарегистрирован</h4>
 				</header>
-				<a href={competitionUrl} class="competition-link">На страницу турнира</a>
+				<button type="submit" on:click={() => goto(competitionUrl)}>На страницу турнира</button>
 			</article>
 		</Modal>
 	</article>
@@ -212,34 +213,7 @@
 		font-size: 70%;
 	}
 
-	.registration-button {
-		color: black;
-		background-color: var(--pico-color-azure-100);
-		border: 1px solid gray;
-		width: 100%;
-	}
-
-	.registration-button:hover {
-		background-color: var(--pico-color-azure-150);
-	}
-
 	.modal {
 		text-align: center;
-	}
-
-	.competition-link {
-		color: black;
-		background-color: var(--pico-color-azure-100);
-		border: 1px solid gray;
-		border-radius: 6px;
-		width: 100%;
-		padding: 14px 25px;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-	}
-
-	.competition-link:hover {
-		background-color: var(--pico-color-azure-150);
 	}
 </style>

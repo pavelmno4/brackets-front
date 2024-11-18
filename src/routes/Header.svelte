@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { User } from '$lib/types/user/User';
 
 	let activeTab: string = 'upcoming';
@@ -13,20 +14,28 @@
 		</ul>
 		<ul>
 			<li>
-				<a
-					href="/upcoming"
-					class="tab contrast"
-					on:click={() => (activeTab = 'upcoming')}
-					class:active={activeTab === 'upcoming'}>Предстоящие турниры</a
-				>
-			</li>
-			<li>
-				<a
-					href="/past"
-					class="tab contrast"
-					on:click={() => (activeTab = 'past')}
-					class:active={activeTab === 'past'}>Прошедшие турнины</a
-				>
+				<div role="group">
+					<button
+						class="outline secondary"
+						aria-current={activeTab === 'upcoming'}
+						on:click={() => {
+							activeTab = 'upcoming';
+							goto('/upcoming');
+						}}
+					>
+						Предстоящие турниры
+					</button>
+					<button
+						class="outline secondary"
+						aria-current={activeTab === 'past'}
+						on:click={() => {
+							activeTab = 'past';
+							goto('/past');
+						}}
+					>
+						Прошедшие турниры
+					</button>
+				</div>
 			</li>
 		</ul>
 		<ul>
@@ -46,24 +55,15 @@
 </header>
 
 <style>
-	.tab {
-		text-align: center;
-	}
-
-	.active {
-		text-decoration: underline;
-		background-color: var(--pico-color-azure-100);
-	}
-
 	.login-icon {
 		width: 34px;
 		height: 34px;
-        transform: rotate(180deg);
+		transform: rotate(180deg);
 	}
 
-    .logout-icon {
-        width: 34px;
+	.logout-icon {
+		width: 34px;
 		height: 34px;
-        transform: rotate(180deg);
-    }
+		transform: rotate(180deg);
+	}
 </style>

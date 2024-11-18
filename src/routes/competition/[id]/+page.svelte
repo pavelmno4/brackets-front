@@ -50,7 +50,7 @@
 				</p>
 				<p>{competition.address}</p>
 				<button
-					class="registration-button"
+					type="submit"
 					on:click={() => goto(registrationUrl)}
 					disabled={isUpcomingCompetiiton}
 				>
@@ -108,26 +108,10 @@
 		margin: 3vh;
 	}
 
-	.registration-button {
-		color: black;
-		background-color: var(--pico-color-azure-100);
-		border: 1px solid gray;
-		border-radius: 6px;
-		width: 100%;
-		padding: 14px 25px;
-		text-align: center;
-		text-decoration: none;
-		display: inline-block;
-	}
-
-	.registration-button:hover {
-		background-color: var(--pico-color-azure-150);
-	}
-
 	.generate-grid-button {
 		align-self: center;
 		background-color: var(--pico-color-azure-500);
-		border: 1px solid gray;
+		border: 1px solid var(--pico-color-azure-600);
 		border-radius: 6px;
 		margin-top: 15px;
 		padding: 14px 25px;
@@ -144,7 +128,7 @@
 		align-self: center;
 		color: white;
 		background-color: var(--pico-color-azure-500);
-		border: 1px solid gray;
+		border: 1px solid var(--pico-color-azure-600);
 		border-radius: 6px;
 		margin-top: 15px;
 		padding: 14px 25px;
