@@ -7,6 +7,8 @@
 	import Modal from '$lib/Modal.svelte';
 	import { validate } from '$lib/util/PageFunction';
 	import { goto } from '$app/navigation';
+	import { Combobox } from 'bits-ui';
+	import '$src/app.pcss';
 
 	export let data: PageData;
 
@@ -24,8 +26,15 @@
 	let selectedGender: Gender;
 	let selectedAgeCategory: string;
 	let selectedWeightCategory: string | undefined;
-	let selectedTeam: string;
 	let dataProcessingConsent: boolean = false;
+
+	// Combobox
+	let inputValue = '';
+	let touchedInput = false;
+	$: filteredTeams =
+		inputValue && touchedInput
+			? teams.filter((team: string) => team.toLowerCase().includes(inputValue.toLowerCase()))
+			: teams;
 
 	let showModal: boolean = false;
 
@@ -121,20 +130,22 @@
 			</select>
 
 			<label for="text">Команда</label>
-			<input
-				list="teams"
-				id="team"
-				name="team"
-				bind:value={selectedTeam}
-				on:focusout={(event) =>
-					validate(event, () => selectedTeam !== undefined && selectedTeam !== '')}
-				required
-			/>
-			<datalist id="teams">
-				{#each teams as team}
-					<option value={team}></option>
-				{/each}
-			</datalist>
+			<Combobox.Root items={filteredTeams} bind:inputValue bind:touchedInput>
+				<Combobox.Input
+					class="combobox-input"
+					placeholder="Выберите или введите команду"
+					required
+				/>
+				<Combobox.Content class="combobox-content" sideOffset={8} side="top">
+					{#each filteredTeams as team}
+						<Combobox.Item class="combobox-item" value={team} label={team}>
+							{team}
+							<Combobox.ItemIndicator class="indicator" asChild={false} />
+						</Combobox.Item>
+					{/each}
+				</Combobox.Content>
+				<Combobox.HiddenInput name="team" value={inputValue} />
+			</Combobox.Root>
 
 			<fieldset>
 				<label for="data-processing-consent">
