@@ -16,11 +16,15 @@
 
 	$: competitionPathName = $page.url.pathname.match(/^.*\/competition\/.{36}/)?.[0]
 	$: competitionUrl = competitionPathName ? new URL(competitionPathName, $page.url.origin).href : undefined;
+	$: gridUrl = $page.url.pathname + "/grid"
 </script>
 
-<nav aria-label="breadcrumb">
+<nav>
 	<ul>
 		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
+	</ul>
+	<ul>
+		<li><a href={gridUrl}>ход поединков &rarr;</a></li>
 	</ul>
 </nav>
 <section class="category-simple">

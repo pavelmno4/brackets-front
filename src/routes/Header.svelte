@@ -10,7 +10,7 @@
 <header class="container">
 	<nav>
 		<ul>
-			<li><strong>brackets</strong></li>
+			<li class="app-name"><strong>brackets</strong></li>
 		</ul>
 		<ul>
 			<li>
@@ -65,5 +65,11 @@
 		width: 34px;
 		height: 34px;
 		transform: rotate(180deg);
+	}
+
+	@media all and (max-width: 1024px) {
+		.app-name {
+			font-size: small;
+		}
 	}
 </style>

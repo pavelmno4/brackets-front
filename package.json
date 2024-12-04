@@ -32,6 +32,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@dagrejs/dagre": "^1.1.4",
+		"@xyflow/svelte": "^0.1.24",
 		"bits-ui": "^0.21.16"
 	}
 }
