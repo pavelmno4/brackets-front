@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { type Node as GridNode, type Edge as GridEdge } from '$src/lib/types/competition/Grid';
+	import ContextMenu from './ContextMenu.svelte';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
 	import {
@@ -61,6 +62,23 @@
 			y: nodeWithPosition.y - nodeHeight / 2
 		};
 	});
+
+	// Context menu
+	let menu: { id: string; top?: number; left?: number; } | null;
+
+	function handleContextMenu({ detail: { event, node } }) {
+		event.preventDefault();
+
+		menu = {
+			id: node.id,
+			top: event.clientY,
+			left: event.clientX
+		};
+	}
+
+	function handlePaneClick() {
+		menu = null;
+	}
 </script>
 
 <div class="dendrogram-container">
@@ -71,11 +89,21 @@
 		maxZoom={1.5}
 		nodesDraggable={false}
 		nodesConnectable={false}
+		on:paneclick={handlePaneClick}
+		on:nodecontextmenu={handleContextMenu}
 		connectionLineType={ConnectionLineType.Step}
 		defaultEdgeOptions={{ type: 'step', animated: false }}
 		colorMode="system"
 	>
 		<Background />
+		{#if menu}
+			<ContextMenu
+				onClick={handlePaneClick}
+				id={menu.id}
+				top={menu.top}
+				left={menu.left}
+			/>
+		{/if}
 		<Controls showZoom={false} showLock={false} />
 	</SvelteFlow>
 </div>
