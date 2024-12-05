@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { type Node as GridNode, type Edge as GridEdge } from '$src/lib/types/competition/Grid';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
 	import {
@@ -8,27 +9,32 @@
 		Position,
 		ConnectionLineType,
 		type Node,
+		type BuiltInNode,
 		type Edge
 	} from '@xyflow/svelte';
 
 	import '@xyflow/svelte/dist/style.css';
 
-	export let layoutedNodes: Array<Node>;
-	export let layoutedEdges: Array<Edge>;
+	export let layoutedNodes: Array<GridNode>;
+	export let layoutedEdges: Array<GridEdge>;
+
+	const nodeWidth = 172;
+	const nodeHeight = 58;
 
 	const layoutedNodesWithBaseStyle: Array<Node> = layoutedNodes.map((node) => {
+		const fullName: string = node.data ? node.data.participantFullName : '';
+		const team: string = node.data ? `(${node.data.team.replace(' ', '\xa0')})` : '';
+
 		return {
 			id: node.id,
-			data: node.data,
-			style: 'width: 172px; height: 58px;'
-		} as Node;
+			data: { label: `${fullName} ${team}` },
+			style: `min-width: ${nodeWidth}px; min-height: ${nodeHeight}px;`
+		} as BuiltInNode;
 	});
 
 	const nodes = writable<Array<Node>>(layoutedNodesWithBaseStyle);
 	const edges = writable<Array<Edge>>(layoutedEdges);
 
-	const nodeWidth = 172;
-	const nodeHeight = 60;
 	const horizontalLayout = 'LR';
 
 	const dagreGraph = new dagre.graphlib.Graph();

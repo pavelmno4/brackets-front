@@ -1,6 +1,6 @@
 <script lang="ts">
+	import { type Node, type Edge } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
-	import { type Node, type Edge } from '@xyflow/svelte';
 	import Dendrogram from './Dendrogram.svelte';
 	import type { PageData } from './$types';
 	import { page } from '$app/stores';
