@@ -1,4 +1,4 @@
-import { GET } from "$lib/api/ApiUtils";
+import { GET, PATCH } from "$lib/api/ApiUtils";
 import type { Grid } from "$src/lib/types/competition/Grid.js";
 
 export async function load({ params }) {
@@ -10,7 +10,23 @@ export async function load({ params }) {
     const grid: Grid = await GET(`competitions/${params.id}/grids`, searchParams).then(response => response.json())
 
     return {
-        nodes: grid.nodes,
-        edges: grid.edges
+        grid: grid
     };
+}
+
+export const actions = {
+    patchNode: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        return await PATCH(`competitions/${params.id}/grids/${data.get('gridId')}/nodes/${data.get('nodeId')}/winner`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {
+                winnerNodeId: data.get('winnerNodeId')
+            })
+            .then(response => response.json());
+    }
 }

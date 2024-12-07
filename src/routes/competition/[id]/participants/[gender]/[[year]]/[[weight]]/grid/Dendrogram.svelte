@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { type Node as GridNode, type Edge as GridEdge } from '$src/lib/types/competition/Grid';
+	import { type Grid } from '$src/lib/types/competition/Grid';
+	import type { User } from '$src/lib/types/user/User';
 	import ContextMenu from './ContextMenu.svelte';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
@@ -16,13 +17,13 @@
 
 	import '@xyflow/svelte/dist/style.css';
 
-	export let layoutedNodes: Array<GridNode>;
-	export let layoutedEdges: Array<GridEdge>;
+	export let grid: Grid;
+	export let user: User | undefined;
 
 	const nodeWidth = 172;
 	const nodeHeight = 58;
 
-	const layoutedNodesWithBaseStyle: Array<Node> = layoutedNodes.map((node) => {
+	const layoutedNodesWithBaseStyle: Array<Node> = grid.nodes.map((node) => {
 		const fullName: string = node.data ? node.data.participantFullName : '';
 		const team: string = node.data ? `(${node.data.team.replace(' ', '\xa0')})` : '';
 
@@ -32,6 +33,7 @@
 			style: `min-width: ${nodeWidth}px; min-height: ${nodeHeight}px;`
 		} as BuiltInNode;
 	});
+	const layoutedEdges: Array<Edge> = grid.edges as Array<Edge>;
 
 	const nodes = writable<Array<Node>>(layoutedNodesWithBaseStyle);
 	const edges = writable<Array<Edge>>(layoutedEdges);
@@ -64,16 +66,18 @@
 	});
 
 	// Context menu
-	let menu: { id: string; top?: number; left?: number; } | null;
+	let menu: { id: string; top?: number; left?: number } | null;
 
 	function handleContextMenu({ detail: { event, node } }) {
 		event.preventDefault();
 
-		menu = {
-			id: node.id,
-			top: event.clientY,
-			left: event.clientX
-		};
+		if (user !== undefined) {
+			menu = {
+				id: node.id,
+				top: event.clientY,
+				left: event.clientX
+			};
+		}
 	}
 
 	function handlePaneClick() {
@@ -97,12 +101,7 @@
 	>
 		<Background />
 		{#if menu}
-			<ContextMenu
-				onClick={handlePaneClick}
-				id={menu.id}
-				top={menu.top}
-				left={menu.left}
-			/>
+			<ContextMenu gridId={grid.id} nodeId={menu.id} left={menu.left} top={menu.top} />
 		{/if}
 		<Controls showZoom={false} showLock={false} />
 	</SvelteFlow>

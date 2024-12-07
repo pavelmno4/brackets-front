@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type Node, type Edge } from '$src/lib/types/competition/Grid';
+	import { type Grid } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
 	import Dendrogram from './Dendrogram.svelte';
 	import type { PageData } from './$types';
@@ -7,8 +7,7 @@
 
 	export let data: PageData;
 
-	$: nodes = data.nodes as Array<Node>;
-	$: edges = data.edges as Array<Edge>;
+	$: grid = data.grid as Grid;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
@@ -29,7 +28,7 @@
 			<nobr>Возрастная группа: {yearRange} г.р. |</nobr>
 			<nobr>Весовая категория: {weightCategory} кг</nobr>
 		</h5>
-		<Dendrogram layoutedNodes={nodes} layoutedEdges={edges} />
+		<Dendrogram {grid} {user} />
 	</article>
 </section>
 
