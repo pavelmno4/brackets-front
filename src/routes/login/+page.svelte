@@ -33,7 +33,7 @@
 				required
 			/>
 
-			<button class="login-button" type="submit">Войти</button>
+			<button type="submit">Войти</button>
 		</form>
 	</article>
 </section>
@@ -49,15 +49,4 @@
 	.title {
 		text-align: center;
 	}
-
-	.login-button {
-		color: black;
-		background-color: var(--pico-color-azure-100);
-		border: 1px solid gray;
-		width: 100%;
-	}
-
-    .login-button:hover {
-        background-color: var(--pico-color-azure-150);
-    }
 </style>
