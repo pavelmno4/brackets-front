@@ -24,7 +24,9 @@
 		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
 	</ul>
 	<ul>
-		<li><a href={gridUrl}>ход поединков &rarr;</a></li>
+		{#if yearRange && weightCategory && participants.length}
+			<li><a href={gridUrl}>ход поединков &rarr;</a></li>
+		{/if}
 	</ul>
 </nav>
 <section class="category-simple">
