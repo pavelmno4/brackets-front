@@ -10,6 +10,7 @@
 
 	$: grid = data.grid as Grid;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
+	$: categories = data.competition.categories;
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
@@ -24,8 +25,10 @@
 </nav>
 <section class="grid">
 	<article class="card">
-		<CategoryHeader {genderRus} {yearRange} {weightCategory} />
-		<Dendrogram {grid} {user} />
+		<CategoryHeader {user} {genderRus} {categories} {yearRange} {weightCategory} urlSuffix="grid" />
+		{#key weightCategory}
+			<Dendrogram {grid} {user} />
+		{/key}
 	</article>
 </section>
 

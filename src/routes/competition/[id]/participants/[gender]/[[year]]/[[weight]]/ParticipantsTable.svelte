@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Participant } from '$lib/types/competition/Participant';
+	import type { Category } from '$src/lib/types/competition/Category';
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import type { User } from '$lib/types/user/User';
 	import { Role } from '$lib/types/user/Role';
@@ -8,6 +9,7 @@
 
 	export let user: User;
 	export let genderRus: string;
+	export let categories: Array<Category>;
 	export let yearRange: string;
 	export let weightCategory: string;
 	export let participants: Array<Participant>;
@@ -18,7 +20,7 @@
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 </script>
 
-<CategoryHeader {genderRus} {yearRange} {weightCategory} />
+<CategoryHeader {user} {genderRus} {categories} {yearRange} {weightCategory} urlSuffix="" />
 <table>
 	<tbody>
 		{#each participants as participant, i}

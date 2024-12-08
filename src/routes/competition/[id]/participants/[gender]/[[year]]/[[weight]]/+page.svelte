@@ -10,6 +10,7 @@
 
 	$: participants = data.participants satisfies Array<Participant>;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
+	$: categories = data.competition.categories;
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
@@ -32,7 +33,7 @@
 <section class="category-simple">
 	<article class="card">
 		{#if yearRange !== undefined && weightCategory !== undefined}
-			<ParticipantsTable {user} {genderRus} {yearRange} {weightCategory} {participants} />
+			<ParticipantsTable {user} {genderRus} {categories} {yearRange} {weightCategory} {participants} />
 		{:else}
 			<HeterogeneousParticipantsTable {user} {genderRus} {participants} />
 		{/if}
