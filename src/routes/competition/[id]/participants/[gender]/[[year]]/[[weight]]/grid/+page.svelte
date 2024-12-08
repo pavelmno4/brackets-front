@@ -8,7 +8,7 @@
 
 	export let data: PageData;
 
-	$: grid = data.grid as Grid;
+	$: grid = data.grid as Grid | null;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
 	$: categories = data.competition.categories;
 	$: yearRange = $page.params.year;
@@ -26,9 +26,13 @@
 <section class="grid">
 	<article class="card">
 		<CategoryHeader {user} {genderRus} {categories} {yearRange} {weightCategory} urlSuffix="grid" />
-		{#key weightCategory}
-			<Dendrogram {grid} {user} />
-		{/key}
+		{#if grid}
+			{#key weightCategory}
+				<Dendrogram {grid} {user} />
+			{/key}
+		{:else}
+			<h5 class="message-empty">Участники отсутствуют</h5>
+		{/if}
 	</article>
 </section>
 
@@ -38,5 +42,9 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 		align-items: center;
+	}
+
+	.message-empty {
+		text-align: center;
 	}
 </style>

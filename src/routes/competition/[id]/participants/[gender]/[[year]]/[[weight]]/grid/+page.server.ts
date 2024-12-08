@@ -7,7 +7,11 @@ export async function load({ params }) {
     if (params.year !== undefined) searchParams.set('ageCategory', params.year);
     if (params.weight !== undefined) searchParams.set('weightCategory', params.weight);
 
-    const grid: Grid = await GET(`competitions/${params.id}/grids`, searchParams).then(response => response.json())
+    const grid: Grid | null = await GET(`competitions/${params.id}/grids`, searchParams)
+        .then(response => {
+            if (response.status === 204) return null;
+            return response.json();
+        })
 
     return {
         grid: grid
