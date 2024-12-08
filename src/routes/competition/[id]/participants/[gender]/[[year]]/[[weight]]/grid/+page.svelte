@@ -1,4 +1,5 @@
 <script lang="ts">
+	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
 	import Dendrogram from './Dendrogram.svelte';
@@ -23,11 +24,7 @@
 </nav>
 <section class="grid">
 	<article class="card">
-		<h5>
-			{genderRus} |
-			<nobr>Возрастная группа: {yearRange} г.р. |</nobr>
-			<nobr>Весовая категория: {weightCategory} кг</nobr>
-		</h5>
+		<CategoryHeader {genderRus} {yearRange} {weightCategory} />
 		<Dendrogram {grid} {user} />
 	</article>
 </section>

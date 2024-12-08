@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Participant } from '$lib/types/competition/Participant';
+	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import type { User } from '$lib/types/user/User';
 	import { Role } from '$lib/types/user/Role';
 	import Modal from '$lib/Modal.svelte';
@@ -17,11 +18,7 @@
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 </script>
 
-<h5>
-	{genderRus} |
-	<nobr>Возрастная группа: {yearRange} г.р. |</nobr>
-	<nobr>Весовая категория: {weightCategory} кг</nobr>
-</h5>
+<CategoryHeader {genderRus} {yearRange} {weightCategory} />
 <table>
 	<tbody>
 		{#each participants as participant, i}

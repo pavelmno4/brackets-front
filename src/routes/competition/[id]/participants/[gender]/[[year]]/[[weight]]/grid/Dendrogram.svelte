@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import type { User } from '$src/lib/types/user/User';
+	import { Role } from '$src/lib/types/user/Role';
 	import ContextMenu from './ContextMenu.svelte';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
@@ -19,6 +20,7 @@
 
 	export let grid: Grid;
 	export let user: User | undefined;
+	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 
 	const nodeWidth = 172;
 	const nodeHeight = 58;
@@ -71,7 +73,7 @@
 	function handleContextMenu({ detail: { event, node } }) {
 		event.preventDefault();
 
-		if (user !== undefined) {
+		if (userIsEditor) {
 			menu = {
 				id: node.id,
 				top: event.clientY,
