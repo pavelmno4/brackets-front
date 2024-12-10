@@ -113,7 +113,7 @@
 	.dendrogram-container {
 		display: block;
 		width: 100%;
-		height: 60vh;
+		height: 65vh;
 	}
 
 	.dendrogram-container :global(div[role='button']) {

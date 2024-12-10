@@ -32,5 +32,25 @@ export const actions = {
                 winnerNodeId: data.get('winnerNodeId')
             })
             .then(response => response.json());
+    },
+    patchPedestal: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        const firstPlace = data.get('firstPlace') !== 'undefined' ? data.get('firstPlace') : null;
+        const secondPlace = data.get('secondPlace') !== 'undefined' ? data.get('secondPlace') : null;
+        const thirdPlace = data.get('thirdPlace') !== 'undefined' ? data.get('thirdPlace') : null;
+
+        return await PATCH(`competitions/${params.id}/grids/${data.get('gridId')}/medalists`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {
+                firstPlaceParticipantId: firstPlace,
+                secondPlaceParticipantId: secondPlace,
+                thirdPlaceParticipantId: thirdPlace
+            })
+            .then(response => response.json());
     }
 }
