@@ -1,4 +1,4 @@
-import type { Category } from '$lib/types/competition/Category';
+import type { CategoriesByGender } from './CategoryByGender';
 
 export interface Competition {
     id: string;
@@ -7,5 +7,5 @@ export interface Competition {
     endDate: Date;
     address: string;
     imagePath: string;
-    categories: Array<Category>;
+    categories: CategoriesByGender;
 }

@@ -51,7 +51,7 @@
 		</div>
 		<h4 class="participants-list-title">Списки участников</h4>
 		<h6 class="male-participants">Юноши</h6>
-		<CategoryTable categories={competition.categories} />
+		<CategoryTable categories={competition.categories.male} />
 		<h6 class="female-participants">Девушки</h6>
 		<a href={femaleParticipantsUrl}>Смотреть список участниц</a>
 	</article>

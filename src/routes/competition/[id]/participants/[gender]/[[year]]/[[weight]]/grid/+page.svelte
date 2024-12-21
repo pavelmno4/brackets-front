@@ -12,7 +12,10 @@
 
 	$: grid = data.grid as Grid | null;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
-	$: categories = data.competition.categories;
+	$: categories =
+		$page.params.gender === Gender.MALE
+			? data.competition.categories.male
+			: data.competition.categories.female;
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: participants = data.participants;

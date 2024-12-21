@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import { enhance } from '$app/forms';
 	import type { PageData } from './$types';
-	import type { Gender } from '$lib/types/competition/Gender';
+	import { Gender } from '$lib/types/competition/Gender';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import Modal from '$lib/Modal.svelte';
 	import { validate } from '$lib/util/PageFunction';
@@ -12,10 +12,30 @@
 
 	export let data: PageData;
 
-	$: categoriesMap = new Map(
-		data.categories.map((category) => [category.yearRange, category.weights])
-	);
-	$: weightCategories = categoriesMap.get(selectedAgeCategory)?.filter((i) => i !== '') satisfies
+	$: categoriesMap = new Map<Gender, Map<string, Array<string>>>([
+		[
+			Gender.MALE,
+			data.categories.male.reduce(
+				(accumulator, category) => (
+					accumulator.set(category.yearRange, category.weights), accumulator
+				),
+				new Map<string, Array<string>>()
+			)
+		],
+		[
+			Gender.FEMALE,
+			data.categories.female.reduce(
+				(accumulator, category) => (
+					accumulator.set(category.yearRange, category.weights), accumulator
+				),
+				new Map<string, Array<string>>()
+			)
+		]
+	]);
+	$: ageCategories = categoriesMap.get(selectedGender)?.keys() satisfies
+		| MapIterator<string>
+		| undefined;
+	$: weightCategories = categoriesMap.get(selectedGender)?.get(selectedAgeCategory) satisfies
 		| Array<string>
 		| undefined;
 	$: teams = data.teams satisfies Array<string>;
@@ -106,10 +126,14 @@
 				on:focusout={(event) => validate(event, () => selectedAgeCategory !== undefined)}
 				required
 			>
-				<option selected disabled value={undefined}>Выберите возрастную категорию</option>
-				{#each categoriesMap.keys() as ageCategory}
-					<option value={ageCategory}>{ageCategory}</option>
-				{/each}
+				{#if ageCategories !== undefined}
+					<option selected disabled value={undefined}>Выберите возрастную категорию</option>
+					{#each ageCategories as ageCategory}
+						<option value={ageCategory}>{ageCategory}</option>
+					{/each}
+				{:else}
+					<option selected disabled value={undefined}>Выберите пол</option>
+				{/if}
 			</select>
 
 			<label for="text">Весовая категория</label>
@@ -121,6 +145,7 @@
 				required
 			>
 				{#if weightCategories !== undefined}
+					<option selected disabled value={undefined}>Выберите весовую категорию</option>
 					{#each weightCategories as weightCategory}
 						<option value={weightCategory}>{weightCategory}</option>
 					{/each}
