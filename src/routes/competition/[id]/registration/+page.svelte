@@ -42,7 +42,7 @@
 	$: competitionUrl = $page.url.toString().replace('/registration', '');
 
 	let fullName: string;
-	let birthYear: number;
+	let birthDate: Date;
 	let selectedGender: Gender;
 	let selectedAgeCategory: string;
 	let selectedWeightCategory: string | undefined;
@@ -88,14 +88,13 @@
 				required
 			/>
 
-			<label for="text">Год рождения</label>
+			<label for="date">Год рождения</label>
 			<input
-				type="number"
-				id="birthYear"
-				name="birthYear"
-				min={1970}
-				bind:value={birthYear}
-				on:focusout={(event) => validate(event, () => String(birthYear).match(/^\d{4}$/) != null)}
+				type="date"
+				id="birthDate"
+				name="birthDate"
+				bind:value={birthDate}
+				on:focusout={(event) => validate(event, () => birthDate !== undefined)}
 				required
 			/>
 

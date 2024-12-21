@@ -21,7 +21,7 @@ export const actions = {
             { 'Content-Type': 'application/json' },
             {
                 fullName: data.get('fio'),
-                birthYear: data.get('birthYear'),
+                birthDate: data.get('birthDate'),
                 gender: data.get('gender'),
                 ageCategory: data.get('ageCategory'),
                 weightCategory: data.get('weightCategory'),

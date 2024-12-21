@@ -1,7 +1,7 @@
 export interface Participant {
     id: string;
     fullName: string;
-    birthYear: number;
+    birthDate: Date;
     weightCategory: string;
     weight: number;
     team: string;

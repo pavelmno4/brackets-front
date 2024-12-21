@@ -23,7 +23,7 @@
 				<th scope="row">{++i}</th>
 				<td>{participant.fullName}</td>
 				<td>
-					<nobr>{participant.birthYear} г.р.</nobr>
+					<nobr>{participant.birthDate.getFullYear()} г.р.</nobr>
 				</td>
 				<td>
 					<nobr>до {participant.weightCategory} кг</nobr>
