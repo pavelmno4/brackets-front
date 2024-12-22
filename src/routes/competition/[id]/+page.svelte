@@ -3,15 +3,29 @@
 	import { page } from '$app/stores';
 	import type { Competition } from '$lib/types/competition/Competition';
 	import CategoryTable from './CategoryTable.svelte';
-	import type { PageData } from './$types';
+	import type { PageData, SubmitFunction } from './$types';
 	import { goto } from '$app/navigation';
+	import { Role } from '$src/lib/types/user/Role';
+	import Modal from '$src/lib/Modal.svelte';
+	import { enhance } from '$app/forms';
 
 	export let data: PageData;
+
+	let showModal: boolean;
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
 	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
 	$: isUpcomingCompetiiton = competition.endDate < new Date();
+	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
+
+	const generateGrids: SubmitFunction = ({ action, cancel }) => {
+		if (action.search === '?/close') cancel();
+
+		return async ({ update }) => {
+			await update({ reset: false });
+		};
+	};
 </script>
 
 <section class="competition">
@@ -47,6 +61,14 @@
 				>
 					Регистрация участника
 				</button>
+				{#if userIsEditor}
+					<button disabled={isUpcomingCompetiiton} on:click={() => (showModal = true)}>
+						Сгенерировать сетки
+					</button>
+					<button disabled={isUpcomingCompetiiton} on:click={() => goto(registrationUrl)}>
+						Создать сетку вручную
+					</button>
+				{/if}
 			</div>
 		</div>
 		<h4 class="participants-list-title">Списки участников</h4>
@@ -56,6 +78,22 @@
 		<a href={femaleParticipantsUrl}>Смотреть список участниц</a>
 	</article>
 </section>
+
+<Modal bind:showModal let:closeModal>
+	<article class="modal">
+		<form method="POST" use:enhance={generateGrids}>
+			<header class="modal-header">
+				<h4>Все текущие турнирные сетки будут очищены. Продолжить?</h4>
+			</header>
+			<footer class="modal-footer">
+				<button class="button-confirm" formaction="?/generateGrids" on:click={closeModal}>
+					Продолжить
+				</button>
+				<button class="button-cancel" formaction="?/close" on:click={closeModal}>Отмена</button>
+			</footer>
+		</form>
+	</article>
+</Modal>
 
 <style>
 	.card {
@@ -78,7 +116,7 @@
 	}
 
 	img {
-		height: 30vh;
+		height: 31vh;
 		border: 1px solid black;
 		border-radius: 6px;
 	}
@@ -99,6 +137,32 @@
 
 	.female-participants {
 		font-weight: 500;
+	}
+
+	.modal-footer {
+		display: flex;
+		justify-content: flex-end;
+		gap: 10px;
+	}
+
+	.button-cancel {
+		background-color: var(--pico-color-red-550);
+		border: 1px solid var(--pico-color-red-550);
+	}
+
+	.button-cancel:hover {
+		background-color: var(--pico-color-red-650);
+		border: 1px solid var(--pico-color-red-650);
+	}
+
+	.button-confirm {
+		background-color: var(--pico-color-jade-500);
+		border: 1px solid var(--pico-color-jade-500);
+	}
+
+	.button-confirm:hover {
+		background-color: var(--pico-color-jade-600);
+		border: 1px solid var(--pico-color-jade-600);
 	}
 
 	@media all and (max-width: 1024px) {
