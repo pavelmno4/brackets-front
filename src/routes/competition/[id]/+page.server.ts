@@ -2,10 +2,10 @@ import { POST } from "$lib/api/ApiUtils";
 import { fail, redirect } from "@sveltejs/kit";
 
 export const actions = {
-    generateGrids: async ({ cookies, params }) => {
+    startCompetition: async ({ cookies, params }) => {
         const user_session = cookies.get('user_session');
 
-        const response = await POST(`competitions/${params.id}/grids`,
+        const response = await POST(`competitions/${params.id}/start`,
             {
                 'Content-Type': 'application/json',
                 'Cookie': `user_session=${user_session}`

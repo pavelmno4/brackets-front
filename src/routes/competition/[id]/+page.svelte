@@ -2,6 +2,7 @@
 	import { locale } from '$lib/const';
 	import { page } from '$app/stores';
 	import type { Competition } from '$lib/types/competition/Competition';
+	import { Stage } from '$src/lib/types/competition/Stage';
 	import CategoryTable from './CategoryTable.svelte';
 	import type { PageData, SubmitFunction } from './$types';
 	import { goto } from '$app/navigation';
@@ -11,19 +12,21 @@
 
 	export let data: PageData;
 
-	let showModal: boolean;
+	let showStartModal: boolean;
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
 	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
-	$: isUpcomingCompetiiton = competition.endDate < new Date();
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 
-	const generateGrids: SubmitFunction = ({ action, cancel }) => {
+	$: closedToUse =
+		competition.stage === Stage.COMPLETED || (competition.stage === Stage.RUNNING && !userIsEditor);
+
+	const startCompetition: SubmitFunction = ({ action, cancel }) => {
 		if (action.search === '?/close') cancel();
 
 		return async ({ update }) => {
-			await update({ reset: false });
+			await update();
 		};
 	};
 </script>
@@ -54,19 +57,16 @@
 					{/if}
 				</p>
 				<p>{competition.address}</p>
-				<button
-					type="submit"
-					on:click={() => goto(registrationUrl)}
-					disabled={isUpcomingCompetiiton}
-				>
+				<button type="submit" on:click={() => goto(registrationUrl)} disabled={closedToUse}>
 					Регистрация участника
 				</button>
 				{#if userIsEditor}
-					<button disabled={isUpcomingCompetiiton} on:click={() => (showModal = true)}>
-						Сгенерировать сетки
-					</button>
-					<button disabled={isUpcomingCompetiiton} on:click={() => goto(registrationUrl)}>
-						Создать сетку вручную
+					<button
+						class="button-confirm"
+						disabled={closedToUse}
+						on:click={() => (showStartModal = true)}
+					>
+						Начать турнир
 					</button>
 				{/if}
 			</div>
@@ -79,14 +79,17 @@
 	</article>
 </section>
 
-<Modal bind:showModal let:closeModal>
+<Modal bind:showModal={showStartModal} let:closeModal>
 	<article class="modal">
-		<form method="POST" use:enhance={generateGrids}>
+		<form method="POST" use:enhance={startCompetition}>
 			<header class="modal-header">
-				<h4>Все текущие турнирные сетки будут очищены. Продолжить?</h4>
+				<h4>
+					Все участники, не прошедшие взвешивание, будут удалены. Текущие турнирные сетки будут
+					очищены. Продолжить?
+				</h4>
 			</header>
 			<footer class="modal-footer">
-				<button class="button-confirm" formaction="?/generateGrids" on:click={closeModal}>
+				<button class="button-confirm" formaction="?/startCompetition" on:click={closeModal}>
 					Продолжить
 				</button>
 				<button class="button-cancel" formaction="?/close" on:click={closeModal}>Отмена</button>

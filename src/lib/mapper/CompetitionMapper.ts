@@ -8,6 +8,7 @@ export function mapToCompetition(json: any): Competition {
         endDate: new Date(Date.parse(json.endDate)),
         address: json.address,
         imagePath: json.imagePath,
-        categories: json.categories
+        categories: json.categories,
+        stage: json.stage
     }
 }
