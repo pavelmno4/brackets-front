@@ -1,4 +1,4 @@
-import { GET, PATCH } from "$lib/api/ApiUtils";
+import { GET, PATCH, POST } from "$lib/api/ApiUtils";
 import type { Grid } from "$src/lib/types/competition/Grid.js";
 
 export async function load({ params }) {
@@ -52,5 +52,21 @@ export const actions = {
                 thirdPlaceParticipantId: thirdPlace
             })
             .then(response => response.json());
-    }
+    },
+    generateGrid: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        return await POST(`competitions/${params.id}/grids/single`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {
+                gender: data.get('gender'),
+                ageCategory: data.get('yearRange'),
+                weightCategory: data.get('weightCategory')
+            })
+            .then(response => response.json());
+    },
 }
