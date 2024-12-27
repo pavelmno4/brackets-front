@@ -20,7 +20,7 @@
 <div style="top: {top}px; left: {left}px;" class="context-menu">
 	<p style="margin: 0.5em;">Победу одержал</p>
 	{#each childNodes as node}
-		<form method="POST" action="?/patchNode">
+		<form method="POST" action="?/selectWinner">
 			<input type="hidden" name="gridId" value={gridId} />
 			<input type="hidden" name="nodeId" value={nodeId} />
 			<input type="hidden" name="winnerNodeId" value={node.id} />

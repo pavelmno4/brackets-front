@@ -2,7 +2,8 @@
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import type { User } from '$src/lib/types/user/User';
 	import { Role } from '$src/lib/types/user/Role';
-	import ContextMenu from './ContextMenu.svelte';
+	import SelectWinnerContextMenu from './SelectWinnerContextMenu.svelte';
+	import SwapNodesContextMenu from './SwapNodesContextMenu.svelte';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
 	import {
@@ -67,14 +68,30 @@
 		};
 	});
 
-	// Context menu
-	let menu: { id: string; top?: number; left?: number } | null;
+	// Select winner menu
+	let selectWinnerContextMenu: { id: string; top?: number; left?: number } | null;
+
+	// Swap context menu
+	let swapNodesContextMenu: {
+		firstNodeId: string;
+		secondNodeId: string;
+		top?: number;
+		left?: number;
+	} | null;
+	$: selectedNodes = $nodes.filter((node) => node.selected);
 
 	function handleContextMenu({ detail: { event, node } }) {
 		event.preventDefault();
 
-		if (userIsEditor) {
-			menu = {
+		if (userIsEditor && selectedNodes.length === 2) {
+			swapNodesContextMenu = {
+				firstNodeId: selectedNodes[0].id,
+				secondNodeId: selectedNodes[1].id,
+				top: event.clientY,
+				left: event.clientX
+			};
+		} else if (userIsEditor) {
+			selectWinnerContextMenu = {
 				id: node.id,
 				top: event.clientY,
 				left: event.clientX
@@ -83,7 +100,8 @@
 	}
 
 	function handlePaneClick() {
-		menu = null;
+		selectWinnerContextMenu = null;
+		swapNodesContextMenu = null;
 	}
 </script>
 
@@ -102,8 +120,22 @@
 		colorMode="system"
 	>
 		<Background />
-		{#if menu}
-			<ContextMenu gridId={grid.id} nodeId={menu.id} left={menu.left} top={menu.top} />
+		{#if selectWinnerContextMenu}
+			<SelectWinnerContextMenu
+				gridId={grid.id}
+				nodeId={selectWinnerContextMenu.id}
+				left={selectWinnerContextMenu.left}
+				top={selectWinnerContextMenu.top}
+			/>
+		{/if}
+		{#if swapNodesContextMenu}
+			<SwapNodesContextMenu
+				gridId={grid.id}
+				firstNodeId={swapNodesContextMenu.firstNodeId}
+				secondNodeId={swapNodesContextMenu.secondNodeId}
+				top={swapNodesContextMenu.top}
+				left={swapNodesContextMenu.left}
+			/>
 		{/if}
 		<Controls showZoom={false} showLock={false} />
 	</SvelteFlow>

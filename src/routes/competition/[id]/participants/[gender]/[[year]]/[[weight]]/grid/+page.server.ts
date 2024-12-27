@@ -19,7 +19,7 @@ export async function load({ params }) {
 }
 
 export const actions = {
-    patchNode: async ({ cookies, request, params }) => {
+    selectWinner: async ({ cookies, request, params }) => {
         const user_session = cookies.get('user_session');
         const data: FormData = await request.formData();
 
@@ -30,6 +30,21 @@ export const actions = {
             },
             {
                 winnerNodeId: data.get('winnerNodeId')
+            })
+            .then(response => response.json());
+    },
+    swapNodes: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        return await PATCH(`competitions/${params.id}/grids/${data.get('gridId')}/nodes/swap`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {
+                firstNodeId: data.get('firstNodeId'),
+                secondNodeId: data.get('secondNodeId')
             })
             .then(response => response.json());
     },
