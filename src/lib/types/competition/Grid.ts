@@ -10,8 +10,7 @@ export interface Grid {
 export interface Node {
     id: string;
     data: {
-        participantFullName: string;
-        team: string;
+        participantId: string;
     } | undefined;
 }
 

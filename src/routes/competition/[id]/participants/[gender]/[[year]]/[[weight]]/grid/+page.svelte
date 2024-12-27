@@ -48,7 +48,7 @@
 		{#if grid}
 			{#key weightCategory}
 				{#key grid}
-					<Dendrogram {grid} {user} />
+					<Dendrogram {grid} {participants} {user} />
 
 					{#if userIsEditor}
 						<Pedestal

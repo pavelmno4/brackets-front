@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Participant } from '$src/lib/types/competition/Participant';
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import type { User } from '$src/lib/types/user/User';
 	import { Role } from '$src/lib/types/user/Role';
@@ -20,15 +21,29 @@
 	import '@xyflow/svelte/dist/style.css';
 
 	export let grid: Grid;
+	export let participants: Array<Participant>;
 	export let user: User | undefined;
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
+
+	const participantsMap = participants.reduce(
+		(accumulator, participant) => (accumulator.set(participant.id, participant), accumulator),
+		new Map<string, Participant>()
+	);
 
 	const nodeWidth = 172;
 	const nodeHeight = 58;
 
 	const layoutedNodesWithBaseStyle: Array<Node> = grid.nodes.map((node) => {
-		const fullName: string = node.data ? node.data.participantFullName : '';
-		const team: string = node.data ? `(${node.data.team.replace(' ', '\xa0')})` : '';
+		const fullName: string = node.data
+			? participantsMap.get(node.data.participantId)
+				? participantsMap.get(node.data.participantId)!.fullName
+				: ''
+			: '';
+		const team: string = node.data
+			? participantsMap.get(node.data.participantId)
+				? `(${participantsMap.get(node.data.participantId)!.team.replace(' ', '\xa0')})`
+				: ''
+			: '';
 
 		return {
 			id: node.id,
@@ -113,6 +128,7 @@
 		maxZoom={1.5}
 		nodesDraggable={false}
 		nodesConnectable={false}
+		zoomOnDoubleClick={false}
 		on:paneclick={handlePaneClick}
 		on:nodecontextmenu={handleContextMenu}
 		connectionLineType={ConnectionLineType.Step}
