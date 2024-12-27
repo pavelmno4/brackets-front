@@ -47,22 +47,24 @@
 		<CategoryHeader {user} {genderRus} {categories} {yearRange} {weightCategory} urlSuffix="grid" />
 		{#if grid}
 			{#key weightCategory}
-				<Dendrogram {grid} {user} />
+				{#key grid}
+					<Dendrogram {grid} {user} />
 
-				{#if userIsEditor}
-					<Pedestal
-						{participants}
-						gridId={grid.id}
-						firstPlace={grid.firstPlaceParticipantId}
-						secondPlace={grid.secondPlaceParticipantId}
-						thirdPlace={grid.thirdPlaceParticipantId}
-					/>
-					<div class="regenerate-button-container">
-						<button class="regenerate-button" on:click={() => (showGenerateModal = true)}>
-							Перегенерировать &#8634;
-						</button>
-					</div>
-				{/if}
+					{#if userIsEditor}
+						<Pedestal
+							{participants}
+							gridId={grid.id}
+							firstPlace={grid.firstPlaceParticipantId}
+							secondPlace={grid.secondPlaceParticipantId}
+							thirdPlace={grid.thirdPlaceParticipantId}
+						/>
+						<div class="regenerate-button-container">
+							<button class="regenerate-button" on:click={() => (showGenerateModal = true)}>
+								Перегенерировать &#8634;
+							</button>
+						</div>
+					{/if}
+				{/key}
 			{/key}
 		{:else}
 			<h5 class="message-empty">Турнирная сетка отсутствует</h5>
