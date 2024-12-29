@@ -9,7 +9,7 @@
 	export let inputName: string;
 
 	$: participantsForCombobox = participants.map((participant) => {
-		return { value: participant.id, label: participant.fullName };
+		return { value: participant.id, label: participant.fullName, team: participant.team };
 	});
 	const filledParticipant = participants.find(
 		(participant) => participant.id === filledParticipantId
@@ -37,7 +37,7 @@
 		</Combobox.Item>
 		{#each filteredParticipants as participant}
 			<Combobox.Item class="combobox-item" value={participant.value} label={participant.label}>
-				{participant.label}
+				{participant.label} ({participant.team})
 				<Combobox.ItemIndicator class="indicator" asChild={false} />
 			</Combobox.Item>
 		{/each}
