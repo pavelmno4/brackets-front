@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Participant } from '$src/lib/types/competition/Participant';
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
@@ -25,6 +26,13 @@
 
 	$: participantsUrl = $page.url.toString().replace('/grid', '');
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
+
+	let participantsMap: Map<string, Participant> = data.participants.reduce(
+		(accumulator: Map<string, Participant>, participant: Participant) => (
+			accumulator.set(participant.id, participant), accumulator
+		),
+		new Map<string, Participant>()
+	);
 
 	let showGenerateModal: boolean = false;
 
@@ -63,6 +71,37 @@
 								Перегенерировать &#8634;
 							</button>
 						</div>
+					{:else}
+						<hr />
+						<div class="pedestal-view">
+							{#if grid.firstPlaceParticipantId}
+								<div>
+									<h6>I место</h6>
+									<p>
+										{participantsMap.get(grid.firstPlaceParticipantId)?.fullName}
+										({participantsMap.get(grid.firstPlaceParticipantId)?.team})
+									</p>
+								</div>
+							{/if}
+							{#if grid.secondPlaceParticipantId}
+								<div>
+									<h6>II место</h6>
+									<p>
+										{participantsMap.get(grid.secondPlaceParticipantId)?.fullName}
+										({participantsMap.get(grid.secondPlaceParticipantId)?.team})
+									</p>
+								</div>
+							{/if}
+							{#if grid.thirdPlaceParticipantId}
+								<div>
+									<h6>III место</h6>
+									<p>
+										{participantsMap.get(grid.thirdPlaceParticipantId)?.fullName}
+										({participantsMap.get(grid.thirdPlaceParticipantId)?.team})
+									</p>
+								</div>
+							{/if}
+						</div>
 					{/if}
 				{/key}
 			{/key}
@@ -98,6 +137,10 @@
 		flex-direction: column;
 		flex-wrap: wrap;
 		align-items: center;
+	}
+
+	.pedestal-view {
+		align-self: flex-start;
 	}
 
 	.message-empty {
