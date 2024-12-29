@@ -12,5 +12,6 @@
 </svelte:head>
 
 <main class="container">
+	<meta name="theme-color" content="#0E1118" media="(prefers-color-scheme: dark)">
 	<slot />
 </main>
