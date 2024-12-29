@@ -11,6 +11,7 @@ export interface Node {
     id: string;
     data: {
         participantId: string;
+        winner: boolean;
     } | undefined;
 }
 

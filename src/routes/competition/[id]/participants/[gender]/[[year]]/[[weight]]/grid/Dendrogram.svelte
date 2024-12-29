@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { Participant } from '$src/lib/types/competition/Participant';
-	import { type Grid } from '$src/lib/types/competition/Grid';
+	import { type Grid, type Node as GridNode } from '$src/lib/types/competition/Grid';
 	import type { User } from '$src/lib/types/user/User';
 	import { Role } from '$src/lib/types/user/Role';
 	import SelectWinnerContextMenu from './SelectWinnerContextMenu.svelte';
 	import SwapNodesContextMenu from './SwapNodesContextMenu.svelte';
+	import { browser } from '$app/environment';
 	import { writable } from 'svelte/store';
 	import dagre from '@dagrejs/dagre';
 	import {
@@ -30,6 +31,10 @@
 		new Map<string, Participant>()
 	);
 
+	function isDarkMode() {
+		if (browser) return window.matchMedia('(prefers-color-scheme: dark)').matches;
+	}
+
 	const nodeWidth = 172;
 	const nodeHeight = 58;
 
@@ -45,10 +50,20 @@
 				: ''
 			: '';
 
+		const color = (node: GridNode) => {
+			if (node.data?.winner) {
+				if (isDarkMode()) {
+					return 'background-color: var(--pico-color-green-600);';
+				} else {
+					return 'background-color: var(--pico-color-green-50);';
+				}
+			}
+		};
+
 		return {
 			id: node.id,
 			data: { label: `${fullName} ${team}` },
-			style: `min-width: ${nodeWidth}px; min-height: ${nodeHeight}px;`
+			style: `min-width: ${nodeWidth}px; min-height: ${nodeHeight}px; ${color(node)}`
 		} as BuiltInNode;
 	});
 	const layoutedEdges: Array<Edge> = grid.edges as Array<Edge>;
