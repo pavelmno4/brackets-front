@@ -16,7 +16,8 @@
 		ConnectionLineType,
 		type Node,
 		type BuiltInNode,
-		type Edge
+		type Edge,
+		type Viewport
 	} from '@xyflow/svelte';
 
 	import '@xyflow/svelte/dist/style.css';
@@ -37,6 +38,8 @@
 
 	const nodeWidth = 172;
 	const nodeHeight = 58;
+
+	const initialViewport: Viewport = { x: 0, y: 22, zoom: 1.2 };
 
 	const layoutedNodesWithBaseStyle: Array<Node> = grid.nodes.map((node) => {
 		const fullName: string = node.data
@@ -93,8 +96,8 @@
 		node.sourcePosition = Position.Right;
 
 		node.position = {
-			x: nodeWithPosition.x - nodeWidth / 2,
-			y: nodeWithPosition.y - nodeHeight / 2
+			x: nodeWithPosition.x * 1.2 - nodeWidth / 2,
+			y: nodeWithPosition.y / 1.75 - nodeHeight / 2
 		};
 	});
 
@@ -139,8 +142,7 @@
 	<SvelteFlow
 		{nodes}
 		{edges}
-		fitView
-		maxZoom={1.5}
+		{initialViewport}
 		nodesDraggable={false}
 		nodesConnectable={false}
 		zoomOnDoubleClick={false}
@@ -185,7 +187,7 @@
 
 	@media all and (max-width: 1024px) {
 		.dendrogram-container {
-			height: 50vh;
+			height: 75vh;
 		}
 	}
 </style>
