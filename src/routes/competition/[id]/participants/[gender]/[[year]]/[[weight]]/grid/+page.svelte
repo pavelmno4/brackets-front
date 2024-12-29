@@ -15,10 +15,14 @@
 
 	$: grid = data.grid as Grid | null;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
-	$: categories =
+	$: categories = (
 		$page.params.gender === Gender.MALE
 			? data.competition.categories.male
-			: data.competition.categories.female;
+			: data.competition.categories.female
+	).reduce(
+		(accumulator, category) => (accumulator.set(category.yearRange, category.weights), accumulator),
+		new Map<string, Array<string>>()
+	);
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: participants = data.participants;

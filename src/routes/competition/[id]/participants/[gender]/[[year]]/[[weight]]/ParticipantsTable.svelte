@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Participant } from '$lib/types/competition/Participant';
-	import type { Category } from '$src/lib/types/competition/Category';
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import type { User } from '$lib/types/user/User';
 	import { Role } from '$lib/types/user/Role';
@@ -9,7 +8,7 @@
 
 	export let user: User;
 	export let genderRus: string;
-	export let categories: Array<Category>;
+	export let categories: Map<string, Array<string>>;
 	export let yearRange: string;
 	export let weightCategory: string;
 	export let participants: Array<Participant>;
@@ -52,7 +51,10 @@
 		id={editedParticipant?.id}
 		fullName={editedParticipant?.fullName}
 		team={editedParticipant?.team}
+		ageCategory={editedParticipant?.ageCategory}
+		weightCategory={editedParticipant?.weightCategory}
 		weight={editedParticipant?.weight}
+		{categories}
 		{closeModal}
 	/>
 </Modal>

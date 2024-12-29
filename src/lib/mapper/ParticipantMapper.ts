@@ -5,6 +5,7 @@ export function mapToParticipant(json: any): Participant {
         id: json.id,
         fullName: json.fullName,
         birthDate: new Date(Date.parse(json.birthDate)),
+        ageCategory: json.ageCategory,
         weightCategory: json.weightCategory,
         weight: json.weight,
         team: json.team

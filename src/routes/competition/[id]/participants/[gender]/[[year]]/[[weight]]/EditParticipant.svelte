@@ -6,8 +6,14 @@
 	export let id: string | undefined;
 	export let fullName: string | undefined;
 	export let team: string | undefined;
+	export let ageCategory: string | undefined;
+	export let weightCategory: string | undefined;
 	export let weight: number | undefined;
+	export let categories: Map<string, Array<string>>;
 	export let closeModal: () => void;
+
+	$: weightCategories = ageCategory ? categories.get(ageCategory) : [];
+	$: selectedWeightCategory = weightCategory;
 
 	const submit: SubmitFunction = ({ action, cancel }) => {
 		if (action.search === '?/close') cancel();
@@ -53,6 +59,19 @@
 						/>
 					</td>
 					<td>
+						<select
+							id="weightCategory"
+							name="weightCategory"
+							bind:value={selectedWeightCategory}
+							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
+						>
+							{#each weightCategories ? weightCategories : [] as weightCategory}
+								<option value={weightCategory}>{weightCategory}</option>
+							{/each}
+						</select>
+					</td>
+					<td>
 						<input
 							type="text"
 							id="weight"
@@ -84,6 +103,10 @@
 	}
 
 	input {
+		margin-bottom: 0px;
+	}
+
+	select {
 		margin-bottom: 0px;
 	}
 

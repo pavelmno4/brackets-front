@@ -10,10 +10,14 @@
 
 	$: participants = data.participants satisfies Array<Participant>;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
-	$: categories =
+	$: categories = (
 		$page.params.gender === Gender.MALE
 			? data.competition.categories.male
-			: data.competition.categories.female;
+			: data.competition.categories.female
+	).reduce(
+		(accumulator, category) => (accumulator.set(category.yearRange, category.weights), accumulator),
+		new Map<string, Array<string>>()
+	);
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
@@ -47,7 +51,7 @@
 				{participants}
 			/>
 		{:else}
-			<HeterogeneousParticipantsTable {user} {genderRus} {participants} />
+			<HeterogeneousParticipantsTable {user} {genderRus} {categories} {participants} />
 		{/if}
 	</article>
 </section>

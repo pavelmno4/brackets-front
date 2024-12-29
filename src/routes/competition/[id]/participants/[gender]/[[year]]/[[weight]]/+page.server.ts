@@ -13,6 +13,7 @@ export const actions = {
             {
                 fullName: data.get('fullName'),
                 team: data.get('team'),
+                weightCategory: data.get('weightCategory'),
                 weight: data.get('weight')
             })
             .then(response => response.json());

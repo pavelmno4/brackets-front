@@ -7,6 +7,7 @@
 
 	export let user: User;
 	export let genderRus: string;
+	export let categories: Map<string, Array<string>>;
 	export let participants: Array<Participant>;
 
 	let showModal: boolean;
@@ -37,8 +38,8 @@
 								editedParticipant = participant;
 								showModal = true;
 							}}
-							class="edit-button"></button
-						>
+							class="edit-button"
+						></button>
 					</td>
 				{/if}
 			</tr>
@@ -53,7 +54,10 @@
 		id={editedParticipant?.id}
 		fullName={editedParticipant?.fullName}
 		team={editedParticipant?.team}
+		ageCategory={editedParticipant?.ageCategory}
+		weightCategory={editedParticipant?.weightCategory}
 		weight={editedParticipant?.weight}
+		{categories}
 		{closeModal}
 	/>
 </Modal>

@@ -1,21 +1,17 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { Category } from './types/competition/Category';
 	import type { User } from './types/user/User';
 	import { Role } from './types/user/Role';
 
 	export let genderRus: string;
-	export let categories: Array<Category>;
+	export let categories: Map<string, Array<string>>;
 	export let yearRange: string;
 	export let weightCategory: string;
 	export let urlSuffix: string;
 	export let user: User;
 
 	$: selectedWeightCategory = weightCategory;
-
-	$: weightCategories = categories
-        .find((category) => category.yearRange === yearRange)
-		?.weights satisfies Array<string> | undefined;
+	$: weightCategories = categories.get(yearRange);
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 
 	$: baseUrl = `/competition/${$page.params.id}/participants/${$page.params.gender}/${yearRange}`;
