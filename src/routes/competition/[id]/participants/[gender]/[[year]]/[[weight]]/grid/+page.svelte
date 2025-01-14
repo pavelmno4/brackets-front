@@ -111,7 +111,9 @@
 			{/key}
 		{:else}
 			<h5 class="message-empty">Турнирная сетка отсутствует</h5>
-			<button on:click={() => (showGenerateModal = true)}>Сгенерировать</button>
+			{#if userIsEditor}
+				<button on:click={() => (showGenerateModal = true)}>Сгенерировать</button>
+			{/if}
 		{/if}
 	</article>
 </section>
