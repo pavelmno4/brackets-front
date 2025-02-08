@@ -20,6 +20,7 @@
 
 		return async ({ update }) => {
 			await update({ reset: false });
+			selectedWeightCategory = weightCategory
 		};
 	};
 </script>
