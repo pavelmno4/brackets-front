@@ -1,4 +1,4 @@
-import { PATCH } from "$lib/api/ApiUtils";
+import { DELETE, PATCH } from "$lib/api/ApiUtils";
 
 export const actions = {
     patch: async ({ cookies, request, params }) => {
@@ -17,5 +17,14 @@ export const actions = {
                 weight: data.get('weight')
             })
             .then(response => response.json());
+    },
+    deleteParticipant: async ({ cookies, request, params }) => {
+        const user_session = cookies.get('user_session');
+        const data: FormData = await request.formData();
+
+        return await DELETE(`competitions/${params.id}/participants/${data.get('id-for-delete')}`,
+            { 'Cookie': `user_session=${user_session}` }
+        )
+        .then(response => { success: response.ok })
     }
 }

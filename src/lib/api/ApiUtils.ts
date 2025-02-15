@@ -50,6 +50,6 @@ export async function PUT(path: string, data: any): Promise<Response> {
     return send({ method: 'PUT', path: path, params: undefined, headers: {}, data: data });
 }
 
-export async function DELETE(path: string): Promise<Response> {
-    return send({ method: 'DELETE', path: path, params: undefined, headers: {}, data: undefined });
+export async function DELETE(path: string, headers: any = {}): Promise<Response> {
+    return send({ method: 'DELETE', path: path, params: undefined, headers: headers, data: undefined });
 }
