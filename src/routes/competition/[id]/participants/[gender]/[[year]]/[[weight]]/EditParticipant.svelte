@@ -20,7 +20,7 @@
 
 		return async ({ update }) => {
 			await update({ reset: false });
-			selectedWeightCategory = weightCategory
+			selectedWeightCategory = weightCategory;
 		};
 	};
 </script>
@@ -57,6 +57,16 @@
 							on:input={(event) => validate(event, () => team !== '')}
 							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
 							required
+						/>
+					</td>
+					<td>
+						<input
+							type="text"
+							id="ageCategory"
+							name="ageCategory"
+							aria-invalid="spelling"
+							bind:value={ageCategory}
+							disabled
 						/>
 					</td>
 					<td>
