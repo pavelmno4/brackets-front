@@ -14,12 +14,24 @@
 	let editedParticipant: Participant | undefined;
 
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
+
+	// Input for filtering
+	let searchInput = '';
+	$: filteredPartitipants = searchInput
+		? participants.filter((participant) =>
+				participant.fullName.toLowerCase().includes(searchInput.toLowerCase())
+			)
+		: participants;
 </script>
 
 <h5>{genderRus}</h5>
+{#if userIsEditor}
+	<label class="search-label" for="text">Поиск</label>
+	<input type="text" id="search-fio" name="search-fio" maxlength="255" bind:value={searchInput} />
+{/if}
 <table>
 	<tbody>
-		{#each participants as participant, i}
+		{#each filteredPartitipants as participant, i}
 			<tr>
 				<th scope="row">{++i}</th>
 				<td>{participant.fullName}</td>
@@ -63,6 +75,10 @@
 </Modal>
 
 <style>
+	.search-label {
+		font-weight: bold;
+	}
+
 	table {
 		overflow: auto;
 	}
