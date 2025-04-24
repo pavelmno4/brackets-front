@@ -38,6 +38,10 @@
 		new Map<string, Participant>()
 	);
 
+	$: firstPlaceParticipant = grid ? participantsMap.get(grid.firstPlaceParticipantId) : undefined;
+	$: secondPlaceParticipant = grid ? participantsMap.get(grid.secondPlaceParticipantId) : undefined;
+	$: thirdPlaceParticipant = grid ? participantsMap.get(grid.thirdPlaceParticipantId) : undefined;
+
 	let showGenerateModal: boolean = false;
 
 	const generateGrid: SubmitFunction = ({ action, cancel }) => {
@@ -82,8 +86,8 @@
 								<div>
 									<h6>I место</h6>
 									<p>
-										{participantsMap.get(grid.firstPlaceParticipantId)?.fullName}
-										({participantsMap.get(grid.firstPlaceParticipantId)?.team})
+										{`${firstPlaceParticipant?.lastName} ${firstPlaceParticipant?.firstName} ${firstPlaceParticipant?.middleName}`}
+										({firstPlaceParticipant?.team})
 									</p>
 								</div>
 							{/if}
@@ -91,8 +95,8 @@
 								<div>
 									<h6>II место</h6>
 									<p>
-										{participantsMap.get(grid.secondPlaceParticipantId)?.fullName}
-										({participantsMap.get(grid.secondPlaceParticipantId)?.team})
+										{`${secondPlaceParticipant?.lastName} ${secondPlaceParticipant?.firstName} ${secondPlaceParticipant?.middleName}`}
+										({secondPlaceParticipant?.team})
 									</p>
 								</div>
 							{/if}
@@ -100,8 +104,8 @@
 								<div>
 									<h6>III место</h6>
 									<p>
-										{participantsMap.get(grid.thirdPlaceParticipantId)?.fullName}
-										({participantsMap.get(grid.thirdPlaceParticipantId)?.team})
+										{`${thirdPlaceParticipant?.lastName} ${thirdPlaceParticipant?.firstName} ${thirdPlaceParticipant?.middleName}`}
+										({thirdPlaceParticipant?.team})
 									</p>
 								</div>
 							{/if}

@@ -11,7 +11,9 @@ export const actions = {
                 'Cookie': `user_session=${user_session}`
             },
             {
-                fullName: data.get('fullName'),
+                firstName: data.get('firstName'),
+                lastName: data.get('lastName'),
+                middleName: data.get('middleName'),
                 team: data.get('team'),
                 weightCategory: data.get('weightCategory'),
                 weight: data.get('weight')

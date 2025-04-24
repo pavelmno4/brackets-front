@@ -20,7 +20,9 @@ export const actions = {
         POST(`competitions/${params.id}/participants`,
             { 'Content-Type': 'application/json' },
             {
-                fullName: data.get('fio'),
+                firstName: data.get('firstName'),
+                lastName: data.get('lastName'),
+                middleName: data.get('middleName'),
                 birthDate: data.get('birthDate'),
                 gender: data.get('gender'),
                 ageCategory: data.get('ageCategory'),

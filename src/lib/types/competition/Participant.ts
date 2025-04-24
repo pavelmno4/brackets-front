@@ -1,6 +1,8 @@
 export interface Participant {
     id: string;
-    fullName: string;
+    firstName: string;
+    lastName: string;
+    middleName: string;
     birthDate: Date;
     ageCategory: string;
     weightCategory: string;

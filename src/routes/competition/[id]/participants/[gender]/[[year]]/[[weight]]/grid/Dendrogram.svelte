@@ -44,7 +44,7 @@
 	const layoutedNodesWithBaseStyle: Array<Node> = grid.nodes.map((node) => {
 		const fullName: string = node.data
 			? participantsMap.get(node.data.participantId)
-				? participantsMap.get(node.data.participantId)!.fullName
+				? `${participantsMap.get(node.data.participantId)!.lastName} ${participantsMap.get(node.data.participantId)!.firstName}`
 				: ''
 			: '';
 		const team: string = node.data

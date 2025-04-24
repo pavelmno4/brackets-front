@@ -4,7 +4,9 @@
 	import type { SubmitFunction } from '@sveltejs/kit';
 
 	export let id: string | undefined;
-	export let fullName: string | undefined;
+	export let firstName: string | undefined;
+	export let lastName: string | undefined;
+	export let middleName: string | undefined;
 	export let team: string | undefined;
 	export let ageCategory: string | undefined;
 	export let weightCategory: string | undefined;
@@ -34,13 +36,41 @@
 					<td>
 						<input
 							type="text"
-							id="fullName"
-							name="fullName"
+							id="lastName"
+							name="lastName"
 							minlength="1"
 							maxlength="255"
 							aria-invalid="spelling"
-							bind:value={fullName}
-							on:input={(event) => validate(event, () => fullName !== '')}
+							bind:value={lastName}
+							on:input={(event) => validate(event, () => lastName !== '')}
+							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
+						/>
+					</td>
+					<td>
+						<input
+							type="text"
+							id="firstName"
+							name="firstName"
+							minlength="1"
+							maxlength="255"
+							aria-invalid="spelling"
+							bind:value={firstName}
+							on:input={(event) => validate(event, () => firstName !== '')}
+							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
+							required
+						/>
+					</td>
+					<td>
+						<input
+							type="text"
+							id="middleName"
+							name="middleName"
+							minlength="1"
+							maxlength="255"
+							aria-invalid="spelling"
+							bind:value={middleName}
+							on:input={(event) => validate(event, () => middleName !== '')}
 							on:focusout={(event) => event.currentTarget.setAttribute('aria-invalid', 'spelling')}
 							required
 						/>
@@ -69,7 +99,7 @@
 							disabled
 						/>
 					</td>
-					<td>
+					<td id="weightCategoryCell">
 						<select
 							id="weightCategory"
 							name="weightCategory"
@@ -113,12 +143,21 @@
 		gap: 10px;
 	}
 
+	td {
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+
 	input {
 		margin-bottom: 0px;
 	}
 
 	select {
 		margin-bottom: 0px;
+	}
+
+	#weightCategoryCell {
+		column-width: 10vw;
 	}
 
 	.button-cancel {

@@ -25,7 +25,7 @@
 		{#each participants as participant, i}
 			<tr class="row">
 				<th scope="row">{++i}</th>
-				<td>{participant.fullName}</td>
+				<td>{`${participant.lastName} ${participant.firstName} ${participant.middleName}`}</td>
 				<td>{participant.team}</td>
 				{#if userIsEditor}
 					<td class="editor-column">
@@ -49,7 +49,9 @@
 <Modal bind:showModal let:closeModal>
 	<EditParticipant
 		id={editedParticipant?.id}
-		fullName={editedParticipant?.fullName}
+		firstName={editedParticipant?.firstName}
+		lastName={editedParticipant?.lastName}
+		middleName={editedParticipant?.middleName}
 		team={editedParticipant?.team}
 		ageCategory={editedParticipant?.ageCategory}
 		weightCategory={editedParticipant?.weightCategory}

@@ -30,8 +30,11 @@
 	// Input for filtering
 	let searchInput = '';
 	$: filteredPartitipants = searchInput
-		? participants.filter((participant) =>
-				participant.fullName.toLowerCase().includes(searchInput.toLowerCase())
+		? participants.filter(
+				(participant) =>
+					participant.lastName.toLowerCase().includes(searchInput.toLowerCase()) ||
+					participant.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
+					participant.middleName.toLowerCase().includes(searchInput.toLowerCase())
 			)
 		: participants;
 </script>
@@ -46,7 +49,7 @@
 		{#each filteredPartitipants as participant, i}
 			<tr>
 				<th scope="row">{++i}</th>
-				<td>{participant.fullName}</td>
+				<td>{`${participant.lastName} ${participant.firstName} ${participant.middleName}`}</td>
 				<td>
 					<nobr>{participant.birthDate.getFullYear()} г.р.</nobr>
 				</td>
@@ -85,7 +88,9 @@
 <Modal bind:showModal={showEditModal} let:closeModal>
 	<EditParticipant
 		id={editedParticipant?.id}
-		fullName={editedParticipant?.fullName}
+		firstName={editedParticipant?.firstName}
+		lastName={editedParticipant?.lastName}
+		middleName={editedParticipant?.middleName}
 		team={editedParticipant?.team}
 		ageCategory={editedParticipant?.ageCategory}
 		weightCategory={editedParticipant?.weightCategory}

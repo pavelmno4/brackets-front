@@ -9,14 +9,21 @@
 	export let inputName: string;
 
 	$: participantsForCombobox = participants.map((participant) => {
-		return { value: participant.id, label: participant.fullName, team: participant.team };
+		return {
+			value: participant.id,
+			label: `${participant.lastName} ${participant.firstName}`,
+			team: participant.team
+		};
 	});
 	const filledParticipant = participants.find(
 		(participant) => participant.id === filledParticipantId
 	);
 
 	let selected: Selected<string> | undefined = filledParticipant
-		? { value: filledParticipant.id, label: filledParticipant.fullName }
+		? {
+				value: filledParticipant.id,
+				label: `${filledParticipant.lastName} ${filledParticipant.firstName}`
+			}
 		: undefined;
 	let inputValue: string;
 	let touchedInput = false;
