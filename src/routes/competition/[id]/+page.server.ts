@@ -11,7 +11,13 @@ export const actions = {
                 'Cookie': `user_session=${user_session}`
             },
             {}
-        );
+        ).then(() => POST(`/competitions/${params.id}/grids`,
+            {
+                'Content-Type': 'application/json',
+                'Cookie': `user_session=${user_session}`
+            },
+            {}
+        ));
 
         if (!response.ok) {
             return fail(400, {});
