@@ -27,6 +27,9 @@ export const actions = {
                 gender: data.get('gender'),
                 ageCategory: data.get('ageCategory'),
                 weightCategory: data.get('weightCategory'),
+                rank: data.get('rank'),
+                settlement: data.get('settlement'),
+                coachFullName: data.get('coachFullName'),
                 team: data.get('team')
             });
     }

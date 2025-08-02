@@ -48,6 +48,9 @@
 	let selectedGender: Gender;
 	let selectedAgeCategory: string;
 	let selectedWeightCategory: string | undefined;
+	let rank: string;
+	let settlement: string;
+	let coachFullName: string;
 	let dataProcessingConsent: boolean = false;
 
 	// Combobox
@@ -180,6 +183,28 @@
 				{/if}
 			</select>
 
+			<label for="text">Разряд</label>
+			<input
+				type="text"
+				id="rank"
+				name="rank"
+				minlength="1"
+				maxlength="5"
+				placeholder="б/р"
+				bind:value={rank}
+			/>
+
+			<label for="text">Населённый пункт</label>
+			<input
+				type="text"
+				id="settlement"
+				name="settlement"
+				minlength="1"
+				maxlength="255"
+				bind:value={settlement}
+				required
+			/>
+
 			<label for="text">Команда</label>
 			<Combobox.Root items={filteredTeams} bind:inputValue bind:touchedInput>
 				<Combobox.Input
@@ -197,6 +222,17 @@
 				</Combobox.Content>
 				<Combobox.HiddenInput name="team" value={inputValue} />
 			</Combobox.Root>
+
+			<label for="text">ФИО тренера</label>
+			<input
+				type="text"
+				id="coachFullName"
+				name="coachFullName"
+				minlength="1"
+				maxlength="255"
+				bind:value={coachFullName}
+				required
+			/>
 
 			<fieldset>
 				<label for="data-processing-consent">
