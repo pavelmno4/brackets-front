@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import type { Category } from '$lib/types/competition/Category';
 	import { maxBy } from '$lib/util/ArrayFunction';
+	import type { Gender } from '$src/lib/types/competition/Gender';
+	import type { Category } from '$lib/types/competition/Category';
 
+	export let gender: Gender;
 	export let categories: Array<Category>;
 	let maxWeightCategoriesCount: number = maxBy(categories, (category) => category.weights.length)
 		.weights.length;
 
-	$: maleParticipantsBaseUrl = $page.url + '/participants/MALE';
+	$: participantsBaseUrl = $page.url;
 </script>
 
 <div class="container">
@@ -20,7 +22,7 @@
 						{@const weight = category.weights[index]}
 						<td>
 							{#if weight !== undefined}
-								<a href="{maleParticipantsBaseUrl}/{category.yearRange}/{weight}">{weight}</a>
+								<a href="{participantsBaseUrl}/{gender}/{category.yearRange}/{weight}">{weight}</a>
 							{:else}
 								<div>-</div>
 							{/if}

@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import type { Competition } from '$lib/types/competition/Competition';
 	import { Stage } from '$src/lib/types/competition/Stage';
-	import CategoryTable from './CategoryTable.svelte';
 	import type { PageData, SubmitFunction } from './$types';
 	import { goto } from '$app/navigation';
 	import { Role } from '$src/lib/types/user/Role';
@@ -16,7 +15,7 @@
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
-	$: femaleParticipantsUrl = $page.url + '/participants/FEMALE';
+	$: participantsUrl = $page.url + '/participants';
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 
 	$: closedToUse =
@@ -71,11 +70,7 @@
 				{/if}
 			</div>
 		</div>
-		<h4 class="participants-list-title">Списки участников</h4>
-		<h6 class="male-participants">Юноши</h6>
-		<CategoryTable categories={competition.categories.male} />
-		<h6 class="female-participants">Девушки</h6>
-		<a href={femaleParticipantsUrl}>Смотреть список участниц</a>
+		<a href={participantsUrl}><h4 class="participants-list-title">Списки участников</h4></a>
 	</article>
 </section>
 
@@ -132,14 +127,6 @@
 		margin-top: 2vh;
 		font-weight: 500;
 		text-decoration: underline;
-	}
-
-	.male-participants {
-		font-weight: 500;
-	}
-
-	.female-participants {
-		font-weight: 500;
 	}
 
 	.modal-footer {

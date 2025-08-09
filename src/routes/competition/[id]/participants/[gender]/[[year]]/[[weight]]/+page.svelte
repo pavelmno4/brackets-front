@@ -22,16 +22,16 @@
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
 
-	$: competitionPathName = $page.url.pathname.match(/^.*\/competition\/.{36}/)?.[0];
-	$: competitionUrl = competitionPathName
-		? new URL(competitionPathName, $page.url.origin).href
+	$: participantsPathName = $page.url.pathname.match(/^.*\/competition\/.{36}\/participants/)?.[0];
+	$: particiapntsUrl = participantsPathName
+		? new URL(participantsPathName, $page.url.origin).href
 		: undefined;
 	$: gridUrl = $page.url.pathname + '/grid';
 </script>
 
 <nav>
 	<ul>
-		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
+		<li><a href={particiapntsUrl}>&larr; списки участников</a></li>
 	</ul>
 	<ul>
 		{#if yearRange && weightCategory && participants.length}
