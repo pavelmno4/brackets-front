@@ -11,7 +11,7 @@
 
 	export let data: PageData;
 
-	let showStartModal: boolean;
+	let showGenerateGridsModal: boolean;
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
@@ -21,7 +21,7 @@
 	$: closedToUse =
 		competition.stage === Stage.COMPLETED || (competition.stage === Stage.RUNNING && !userIsEditor);
 
-	const startCompetition: SubmitFunction = ({ action, cancel }) => {
+	const generateGrids: SubmitFunction = ({ action, cancel }) => {
 		if (action.search === '?/close') cancel();
 
 		return async ({ update }) => {
@@ -60,13 +60,34 @@
 					Регистрация участника
 				</button>
 				{#if userIsEditor}
-					<button
-						class="button-confirm"
-						disabled={closedToUse}
-						on:click={() => (showStartModal = true)}
-					>
-						Начать турнир
-					</button>
+					<div class="forms-container">
+						<form class="inline-form" method="POST">
+							<button class="button-confirm" disabled={closedToUse} formaction="?/startCompetition">
+								Начать турнир
+							</button>
+						</form>
+						<button
+							class="button-other-zinc"
+							disabled={closedToUse}
+							on:click={() => (showGenerateGridsModal = true)}
+						>
+							Сгенерировать сетки
+						</button>
+						<form class="inline-form" method="POST">
+							<button class="button-other-zinc" disabled={closedToUse} formaction="?/downloadGrids">
+								Скачать сетки
+							</button>
+						</form>
+						<form class="inline-form" method="POST">
+							<button
+								class="button-cancel"
+								disabled={closedToUse}
+								formaction="?/completeCompetition"
+							>
+								Завершить турнир
+							</button>
+						</form>
+					</div>
 				{/if}
 			</div>
 		</div>
@@ -74,17 +95,14 @@
 	</article>
 </section>
 
-<Modal bind:showModal={showStartModal} let:closeModal>
+<Modal bind:showModal={showGenerateGridsModal} let:closeModal>
 	<article class="modal">
-		<form method="POST" use:enhance={startCompetition}>
+		<form method="POST" use:enhance={generateGrids}>
 			<header class="modal-header">
-				<h4>
-					Все участники, не прошедшие взвешивание, будут удалены. Текущие турнирные сетки будут
-					очищены. Продолжить?
-				</h4>
+				<h4>Текущие турнирные сетки будут очищены. Продолжить?</h4>
 			</header>
 			<footer class="modal-footer">
-				<button class="button-confirm" formaction="?/startCompetition" on:click={closeModal}>
+				<button class="button-confirm" formaction="?/generateGrids" on:click={closeModal}>
 					Продолжить
 				</button>
 				<button class="button-cancel" formaction="?/close" on:click={closeModal}>Отмена</button>
@@ -135,6 +153,15 @@
 		gap: 10px;
 	}
 
+	.forms-container {
+		display: flex;
+		gap: 1rem;
+	}
+
+	.inline-form {
+		margin: 0;
+	}
+
 	.button-cancel {
 		background-color: var(--pico-color-red-550);
 		border: 1px solid var(--pico-color-red-550);
@@ -153,6 +180,16 @@
 	.button-confirm:hover {
 		background-color: var(--pico-color-jade-600);
 		border: 1px solid var(--pico-color-jade-600);
+	}
+
+	.button-other-zinc {
+		background-color: var(--pico-color-zinc-550);
+		border: 1px solid var(--pico-color-zinc-550);
+	}
+
+	.button-other-zinc:hover {
+		background-color: var(--pico-color-zinc-600);
+		border: 1px solid var(--pico-color-zinc-600);
 	}
 
 	@media all and (max-width: 1024px) {
