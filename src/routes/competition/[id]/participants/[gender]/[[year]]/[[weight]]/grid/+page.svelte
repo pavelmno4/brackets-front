@@ -14,6 +14,7 @@
 	export let data: PageData;
 
 	$: grid = data.grid as Grid | null;
+	$: isMobileDevice = data.isMobile as boolean;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
 	$: categories = (
 		$page.params.gender === Gender.MALE
@@ -64,7 +65,7 @@
 		{#if grid}
 			{#key weightCategory}
 				{#key grid}
-					<Dendrogram {grid} {participants} {user} />
+					<Dendrogram {grid} {participants} {user} {isMobileDevice}/>
 
 					{#if userIsEditor}
 						<Pedestal

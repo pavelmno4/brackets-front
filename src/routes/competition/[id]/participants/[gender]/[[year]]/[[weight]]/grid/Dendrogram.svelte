@@ -25,6 +25,7 @@
 	export let grid: Grid;
 	export let participants: Array<Participant>;
 	export let user: User | undefined;
+	export let isMobileDevice: boolean;
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 
 	const participantsMap = participants.reduce(
@@ -142,6 +143,7 @@
 	<SvelteFlow
 		{nodes}
 		{edges}
+		fitView={isMobileDevice}
 		{initialViewport}
 		nodesDraggable={false}
 		nodesConnectable={false}

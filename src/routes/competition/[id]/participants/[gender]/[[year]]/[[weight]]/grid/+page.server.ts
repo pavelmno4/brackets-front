@@ -1,7 +1,7 @@
 import { GET, PATCH, POST } from "$lib/api/ApiUtils";
 import type { Grid } from "$src/lib/types/competition/Grid.js";
 
-export async function load({ params }) {
+export async function load({ params, request }) {
     const searchParams: URLSearchParams = new URLSearchParams();
     searchParams.set('gender', params.gender)
     if (params.year !== undefined) searchParams.set('ageCategory', params.year);
@@ -13,8 +13,12 @@ export async function load({ params }) {
             return response.json();
         })
 
+    const userAgent: string = request.headers.get('user-agent') || '';
+    const isMobile: boolean = /android|iPad|iPhone|iPod/i.test(userAgent);
+
     return {
-        grid: grid
+        grid: grid,
+        isMobile: isMobile
     };
 }
 
