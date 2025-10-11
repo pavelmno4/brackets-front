@@ -13,6 +13,7 @@ Set up the following environment variables and start the app:
 | variable         | type   | required |
 |------------------|--------|----------|
 | BACKEND_BASE_URL | text   | true     |
+| FILES_BASE_DIR   | text   | true     |
 
 For developing run:
 `npm run dev`

@@ -8,6 +8,7 @@
 	import { Role } from '$src/lib/types/user/Role';
 	import Modal from '$src/lib/Modal.svelte';
 	import { enhance } from '$app/forms';
+	import { downloadFile } from '$src/lib/file/FileUtils';
 
 	export let data: PageData;
 
@@ -17,6 +18,7 @@
 	$: registrationUrl = $page.url + '/registration';
 	$: participantsUrl = $page.url + '/participants';
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
+	$: gridsFileName = `${new Intl.DateTimeFormat('en-CA').format(competition.startDate)}_${competition.id}.zip`;
 
 	$: closedToUse =
 		competition.stage === Stage.COMPLETED || (competition.stage === Stage.RUNNING && !userIsEditor);
@@ -26,6 +28,13 @@
 
 		return async ({ update }) => {
 			await update();
+		};
+	};
+
+	const downloadGrids: SubmitFunction = () => {
+		return async ({ update }) => {
+			await update();
+			downloadFile(gridsFileName)
 		};
 	};
 </script>
@@ -73,7 +82,7 @@
 						>
 							Сгенерировать сетки
 						</button>
-						<form class="inline-form" method="POST">
+						<form class="inline-form" method="POST" use:enhance={downloadGrids}>
 							<button class="button-other-zinc" disabled={closedToUse} formaction="?/downloadGrids">
 								Скачать сетки
 							</button>
