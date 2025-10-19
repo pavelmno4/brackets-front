@@ -18,7 +18,9 @@
 	$: registrationUrl = $page.url + '/registration';
 	$: participantsUrl = $page.url + '/participants';
 	$: viewerRegistrationUrl = $page.url + '/viewer/registration';
+	$: viewersUrl = $page.url + '/viewer';
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
+	$: userIsViewer = data.user ? data.user.roles.includes(Role.VIEWER) : false;
 	$: gridsFileName = `${new Intl.DateTimeFormat('en-CA').format(competition.startDate)}_${competition.id}.zip`;
 
 	$: closedToUse =
@@ -35,7 +37,7 @@
 	const downloadGrids: SubmitFunction = () => {
 		return async ({ update }) => {
 			await update();
-			downloadFile(gridsFileName)
+			downloadFile(gridsFileName);
 		};
 	};
 </script>
@@ -105,6 +107,9 @@
 			</div>
 		</div>
 		<a href={participantsUrl}><h4 class="participants-list-title">Списки участников</h4></a>
+		{#if userIsViewer}
+			<a href={viewersUrl}><h4 class="viewers-list-title">Список зрителей</h4></a>
+		{/if}
 	</article>
 </section>
 
@@ -152,6 +157,11 @@
 
 	.description {
 		margin: 3vh;
+	}
+
+	.viewers-list-title {
+		margin-top: 2vh;
+		font-weight: 400;
 	}
 
 	.participants-list-title {

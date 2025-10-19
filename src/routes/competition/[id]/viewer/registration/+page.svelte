@@ -90,7 +90,7 @@
 				name="phone"
 				minlength="10"
 				maxlength="16"
-				placeholder="+7(999)111-11-11"
+				placeholder="+7(999)1111111"
 				bind:value={phone}
 				on:focusout={(event) =>
 					validate(event, () => phone !== undefined && phoneRegex.test(phone))}
