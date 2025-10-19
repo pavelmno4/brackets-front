@@ -17,6 +17,7 @@
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
 	$: participantsUrl = $page.url + '/participants';
+	$: viewerRegistrationUrl = $page.url + '/viewer/registration';
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 	$: gridsFileName = `${new Intl.DateTimeFormat('en-CA').format(competition.startDate)}_${competition.id}.zip`;
 
@@ -67,6 +68,9 @@
 				<p>{competition.address}</p>
 				<button type="submit" on:click={() => goto(registrationUrl)} disabled={closedToUse}>
 					Регистрация участника
+				</button>
+				<button class="outline" type="submit" on:click={() => goto(viewerRegistrationUrl)} disabled={closedToUse}>
+					Регистрация зрителя
 				</button>
 				{#if userIsEditor}
 					<div class="forms-container">
