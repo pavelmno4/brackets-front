@@ -5,8 +5,13 @@
 	import Modal from '$lib/Modal.svelte';
 	import { validate } from '$lib/util/PageFunction';
 	import { goto } from '$app/navigation';
+	import type { PageData } from '../../$types';
+	import type { Competition } from '$src/lib/types/competition/Competition';
 	import '$src/app.pcss';
 
+	export let data: PageData;
+
+	$: competition = data.competition satisfies Competition;
 	$: competitionUrl = $page.url.toString().replace('/viewer/registration', '');
 
 	let firstName: string;
@@ -14,6 +19,7 @@
 	let middleName: string;
 	let phone: string;
 	let dataProcessingConsent: boolean = false;
+	let viewerName: string;
 
 	let showModal: boolean = false;
 	const phoneRegex = /(^8|7|\+7)((\d{10})|(\(\d{3}\)\d{3}-?\d{2}-?\d{2}))$/;
@@ -29,8 +35,12 @@
 			cancel();
 		}
 
-		return async ({ update }) => {
+		return async ({ update, result }) => {
 			await update();
+
+			const viewer = result.data;
+			viewerName = `${viewer.lastName} ${viewer.firstName}`;
+
 			showModal = true;
 		};
 	};
@@ -137,8 +147,13 @@
 		<Modal bind:showModal>
 			<article class="modal">
 				<header>
-					<h4>Зритель успешно зарегистрирован</h4>
+					<h4>Ваш билет</h4>
+					<p>(сделайте скриншот)</p>
 				</header>
+				<img src={competition.imagePath} alt="Ticket" />
+				<p>
+					Зритель: {viewerName}
+				</p>
 				<button type="submit" on:click={() => goto(competitionUrl)}>На страницу турнира</button>
 			</article>
 		</Modal>
