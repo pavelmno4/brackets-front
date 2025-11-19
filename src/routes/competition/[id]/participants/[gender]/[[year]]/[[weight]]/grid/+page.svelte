@@ -3,6 +3,7 @@
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
+	import { Stage } from '$src/lib/types/competition/Stage';
 	import { Role } from '$src/lib/types/user/Role';
 	import Dendrogram from './Dendrogram.svelte';
 	import Modal from '$src/lib/Modal.svelte';
@@ -31,6 +32,8 @@
 
 	$: participantsUrl = $page.url.toString().replace('/grid', '');
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
+	$: availableForEditor = data.competition.stage === Stage.BUILDING_GRIDS;
+	$: availableForAll = data.competition.stage !== Stage.BUILDING_GRIDS;
 
 	let participantsMap: Map<string, Participant> = data.participants.reduce(
 		(accumulator: Map<string, Participant>, participant: Participant) => (
@@ -62,7 +65,7 @@
 <section class="grid">
 	<article class="card">
 		<CategoryHeader {user} {genderRus} {categories} {yearRange} {weightCategory} urlSuffix="grid" />
-		{#if grid}
+		{#if grid && ((availableForEditor && userIsEditor) || availableForAll)}
 			{#key weightCategory}
 				{#key grid}
 					<Dendrogram {grid} {participants} {user} {isMobileDevice}/>

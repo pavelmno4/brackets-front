@@ -70,11 +70,6 @@
 				</button>
 				{#if userIsEditor}
 					<div class="forms-container">
-						<form class="inline-form" method="POST">
-							<button class="button-confirm" disabled={closedToUse} formaction="?/startCompetition">
-								Начать турнир
-							</button>
-						</form>
 						<button
 							class="button-other-zinc"
 							disabled={closedToUse}
@@ -85,6 +80,11 @@
 						<form class="inline-form" method="POST" use:enhance={downloadGrids}>
 							<button class="button-other-zinc" disabled={closedToUse} formaction="?/downloadGrids">
 								Скачать сетки
+							</button>
+						</form>
+						<form class="inline-form" method="POST">
+							<button class="button-confirm" disabled={closedToUse} formaction="?/startCompetition">
+								Начать турнир
 							</button>
 						</form>
 						<form class="inline-form" method="POST">
