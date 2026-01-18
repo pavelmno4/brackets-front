@@ -6,13 +6,10 @@
 	import type { PageData, SubmitFunction } from './$types';
 	import { goto } from '$app/navigation';
 	import { Role } from '$src/lib/types/user/Role';
-	import Modal from '$src/lib/Modal.svelte';
 	import { enhance } from '$app/forms';
 	import { downloadFile } from '$src/lib/file/FileUtils';
 
 	export let data: PageData;
-
-	let showGenerateGridsModal: boolean;
 
 	$: competition = data.competition satisfies Competition;
 	$: registrationUrl = $page.url + '/registration';
@@ -22,14 +19,6 @@
 
 	$: closedToUse =
 		competition.stage === Stage.COMPLETED || (competition.stage === Stage.RUNNING && !userIsEditor);
-
-	const generateGrids: SubmitFunction = ({ action, cancel }) => {
-		if (action.search === '?/close') cancel();
-
-		return async ({ update }) => {
-			await update();
-		};
-	};
 
 	const downloadGrids: SubmitFunction = () => {
 		return async ({ update }) => {
@@ -70,13 +59,6 @@
 				</button>
 				{#if userIsEditor}
 					<div class="forms-container">
-						<button
-							class="button-other-zinc"
-							disabled={closedToUse}
-							on:click={() => (showGenerateGridsModal = true)}
-						>
-							Сгенерировать сетки
-						</button>
 						<form class="inline-form" method="POST" use:enhance={downloadGrids}>
 							<button class="button-other-zinc" disabled={closedToUse} formaction="?/downloadGrids">
 								Скачать сетки
@@ -103,22 +85,6 @@
 		<a href={participantsUrl}><h4 class="participants-list-title">Списки участников</h4></a>
 	</article>
 </section>
-
-<Modal bind:showModal={showGenerateGridsModal} let:closeModal>
-	<article class="modal">
-		<form method="POST" use:enhance={generateGrids}>
-			<header class="modal-header">
-				<h4>Текущие турнирные сетки будут очищены. Продолжить?</h4>
-			</header>
-			<footer class="modal-footer">
-				<button class="button-confirm" formaction="?/generateGrids" on:click={closeModal}>
-					Продолжить
-				</button>
-				<button class="button-cancel" formaction="?/close" on:click={closeModal}>Отмена</button>
-			</footer>
-		</form>
-	</article>
-</Modal>
 
 <style>
 	.card {

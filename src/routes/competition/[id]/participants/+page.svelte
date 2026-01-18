@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import type { Competition } from '$src/lib/types/competition/Competition';
 	import { Gender } from '$src/lib/types/competition/Gender';
+	import { Role } from '$src/lib/types/user/Role';
 	import type { PageData } from '../$types';
 	import CategoryTable from '../CategoryTable.svelte';
 
@@ -10,6 +11,7 @@
 	$: competition = data.competition satisfies Competition;
 	$: maleParticipantsUrl = $page.url + '/MALE';
 	$: femaleParticipantsUrl = $page.url + '/FEMALE';
+	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 
 	$: competitionPathName = $page.url.pathname.match(/^.*\/competition\/.{36}/)?.[0];
 	$: competitionUrl = competitionPathName
@@ -27,11 +29,11 @@
 		<h4 class="participants-list-title">Списки участников</h4>
 		<h6 class="male-participants">Юноши</h6>
 		<a href={maleParticipantsUrl}>Смотреть список всех участников</a>
-		<CategoryTable gender={Gender.MALE} categories={competition.categories.male} />
+		<CategoryTable {competition} gender={Gender.MALE} categories={competition.categories.male} {userIsEditor} />
 
 		<h6 class="female-participants">Девушки</h6>
 		<a href={femaleParticipantsUrl}>Смотреть список всех участниц</a>
-		<CategoryTable gender={Gender.FEMALE} categories={competition.categories.female} />
+		<CategoryTable {competition} gender={Gender.FEMALE} categories={competition.categories.female} {userIsEditor} />
 	</article>
 </section>
 
