@@ -3,12 +3,12 @@
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import { type Grid } from '$src/lib/types/competition/Grid';
 	import { Gender } from '$src/lib/types/competition/Gender';
-	import { Stage } from '$src/lib/types/competition/Stage';
 	import { Role } from '$src/lib/types/user/Role';
 	import Dendrogram from './Dendrogram.svelte';
+	import { sendRequest } from '$src/lib/util/RequestFunction';
 	import Modal from '$src/lib/Modal.svelte';
 	import Pedestal from './Pedestal.svelte';
-	import type { PageData, SubmitFunction } from './$types';
+	import type { PageData } from './$types';
 	import { enhance } from '$app/forms';
 	import { page } from '$app/stores';
 
@@ -47,14 +47,6 @@
 	$: thirdPlaceParticipant = grid ? participantsMap.get(grid.thirdPlaceParticipantId) : undefined;
 
 	let showGenerateModal: boolean = false;
-
-	const generateGrid: SubmitFunction = ({ action, cancel }) => {
-		if (action.search === '?/close') cancel();
-
-		return async ({ update }) => {
-			await update();
-		};
-	};
 </script>
 
 <nav>
@@ -128,7 +120,7 @@
 
 <Modal bind:showModal={showGenerateModal} let:closeModal>
 	<article class="modal">
-		<form method="POST" use:enhance={generateGrid}>
+		<form method="POST" use:enhance={sendRequest}>
 			<header class="modal-header">
 				<h4>Текущая турнирная сетка для данной категории будет очищена. Продолжить?</h4>
 			</header>

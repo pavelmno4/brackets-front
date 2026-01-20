@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { sendRequest } from '$src/lib/util/RequestFunction';
+
 	export let gridId: string;
 	export let firstNodeId: string;
 	export let secondNodeId: string;
@@ -9,11 +12,11 @@
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <div style="top: {top}px; left: {left}px;" class="context-menu">
-	<form method="POST" action="?/swapNodes">
+	<form method="POST" use:enhance={sendRequest}>
 		<input type="hidden" name="gridId" value={gridId} />
 		<input type="hidden" name="firstNodeId" value={firstNodeId} />
 		<input type="hidden" name="secondNodeId" value={secondNodeId} />
-		<button type="submit"><small>Поменять местами</small></button>
+		<button type="submit" formaction="?/swapNodes"><small>Поменять местами</small></button>
 	</form>
 </div>
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { sendRequest } from '$src/lib/util/RequestFunction';
 	import { useNodes, useEdges } from '@xyflow/svelte';
 
 	export let gridId: string;
@@ -20,11 +22,11 @@
 <div style="top: {top}px; left: {left}px;" class="context-menu">
 	<p style="margin: 0.5em;">Победу одержал</p>
 	{#each childNodes as node}
-		<form method="POST" action="?/selectWinner">
+		<form method="POST" use:enhance={sendRequest}>
 			<input type="hidden" name="gridId" value={gridId} />
 			<input type="hidden" name="nodeId" value={nodeId} />
 			<input type="hidden" name="winnerNodeId" value={node.id} />
-			<button type="submit"><small>{node.data.label}</small></button>
+			<button type="submit" formaction="?/selectWinner"><small>{node.data.label}</small></button>
 		</form>
 	{/each}
 </div>

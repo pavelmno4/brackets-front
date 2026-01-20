@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { maxBy } from '$lib/util/ArrayFunction';
+	import { sendRequest } from '$src/lib/util/RequestFunction';
 	import { Gender } from '$src/lib/types/competition/Gender';
 	import type { Category } from '$lib/types/competition/Category';
 	import { Stage } from '$src/lib/types/competition/Stage';
 	import type { Competition } from '$src/lib/types/competition/Competition';
 	import type { Grid } from '$src/lib/types/competition/Grid';
 	import Modal from '$src/lib/Modal.svelte';
-	import type { SubmitFunction } from '@sveltejs/kit';
 	import { enhance } from '$app/forms';
 
 	export let competition: Competition;
@@ -36,14 +36,6 @@
 	);
 	// tracking showCategory changes
 	$: showCategoryKey = Array.from(showCategory).join('|');
-
-	const sendRequest: SubmitFunction = ({ action, cancel }) => {
-		if (action.search === '?/close') cancel();
-
-		return async ({ update }) => {
-			await update();
-		};
-	};
 </script>
 
 <div class="container">

@@ -6,6 +6,7 @@
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
 	import EditParticipant from './EditParticipant.svelte';
+	import { sendRequest } from '$src/lib/util/RequestFunction';
 
 	export let user: User;
 	export let genderRus: string;
@@ -17,13 +18,6 @@
 
 	let showDeleteModal: boolean;
 	let deletedParticipant: Participant | undefined;
-	const deleteParticipant: SubmitFunction = ({ action, cancel }) => {
-		if (action.search === '?/close') cancel();
-
-		return async ({ update }) => {
-			await update();
-		};
-	};
 
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
 
@@ -103,7 +97,7 @@
 <!-- Delete modal -->
 <Modal bind:showModal={showDeleteModal} let:closeModal>
 	<article class="modal">
-		<form method="POST" use:enhance={deleteParticipant}>
+		<form method="POST" use:enhance={sendRequest}>
 			<header class="modal-header">
 				<h4>Удалить участника?</h4>
 			</header>
