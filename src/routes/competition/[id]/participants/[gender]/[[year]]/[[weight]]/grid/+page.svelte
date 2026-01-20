@@ -32,8 +32,8 @@
 
 	$: participantsUrl = $page.url.toString().replace('/grid', '');
 	$: userIsEditor = user ? user.roles.includes(Role.EDITOR) : false;
-	$: availableForEditor = data.competition.stage === Stage.BUILDING_GRIDS;
-	$: availableForAll = data.competition.stage !== Stage.BUILDING_GRIDS;
+	$: availableForEditor = grid?.show === false;
+	$: availableForAll = grid?.show === true;
 
 	let participantsMap: Map<string, Participant> = data.participants.reduce(
 		(accumulator: Map<string, Participant>, participant: Participant) => (

@@ -1,10 +1,16 @@
+import type { Gender } from "./Gender";
+
 export interface Grid {
-    id: string,
+    id: string;
+    gender: Gender;
+    ageCategory: string;
+    weightCategory: string;
     nodes: Array<Node>;
     edges: Array<Edge>;
     firstPlaceParticipantId: string;
     secondPlaceParticipantId: string;
     thirdPlaceParticipantId: string;
+    show: boolean;
 }
 
 export interface Node {

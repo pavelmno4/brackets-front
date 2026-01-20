@@ -7,17 +7,17 @@ export async function load({ params, request }) {
     if (params.year !== undefined) searchParams.set('ageCategory', params.year);
     if (params.weight !== undefined) searchParams.set('weightCategory', params.weight);
 
-    const grid: Grid | null = await GET(`competitions/${params.id}/grids`, searchParams)
+    const grids: Array<Grid> | null = await GET(`competitions/${params.id}/grids`, searchParams)
         .then(response => {
             if (response.status === 204) return null;
             return response.json();
-        })
+        });
 
     const userAgent: string = request.headers.get('user-agent') || '';
     const isMobile: boolean = /android|iPad|iPhone|iPod/i.test(userAgent);
 
     return {
-        grid: grid,
+        grid: grids?.[0],
         isMobile: isMobile
     };
 }
