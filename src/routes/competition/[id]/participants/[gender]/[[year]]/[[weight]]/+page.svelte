@@ -1,13 +1,16 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { PageData } from './$types';
+	import { Role } from '$src/lib/types/user/Role';
 	import { Gender } from '$lib/types/competition/Gender';
 	import type { Participant } from '$lib/types/competition/Participant';
+	import type { Competition } from '$src/lib/types/competition/Competition';
 	import ParticipantsTable from './ParticipantsTable.svelte';
 	import HeterogeneousParticipantsTable from './HeterogeneousParticipantsTable.svelte';
 
 	export let data: PageData;
 
+	$: competition = data.competition satisfies Competition;
 	$: participants = data.participants satisfies Array<Participant>;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
 	$: categories = (
@@ -21,7 +24,8 @@
 	$: yearRange = $page.params.year;
 	$: weightCategory = $page.params.weight;
 	$: user = data.user;
-
+	
+	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
 	$: participantsPathName = $page.url.pathname.match(/^.*\/competition\/.{36}\/participants/)?.[0];
 	$: particiapntsUrl = participantsPathName
 		? new URL(participantsPathName, $page.url.origin).href
@@ -33,6 +37,11 @@
 	<ul>
 		<li><a href={particiapntsUrl}>&larr; списки участников</a></li>
 	</ul>
+	{#if userIsEditor}
+		<ul>
+			<li><h3>{competition.title}</h3></li>
+		</ul>
+	{/if}
 	<ul>
 		{#if yearRange && weightCategory && participants.length}
 			<li><a href={gridUrl}>ход поединков &rarr;</a></li>

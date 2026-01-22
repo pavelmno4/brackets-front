@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Competition } from '$src/lib/types/competition/Competition';
 	import type { Participant } from '$src/lib/types/competition/Participant';
 	import CategoryHeader from '$src/lib/CategoryHeader.svelte';
 	import { type Grid } from '$src/lib/types/competition/Grid';
@@ -14,6 +15,7 @@
 
 	export let data: PageData;
 
+	$: competition = data.competition satisfies Competition;
 	$: grid = data.grid as Grid | null;
 	$: isMobileDevice = data.isMobile as boolean;
 	$: genderRus = $page.params.gender === Gender.MALE ? 'Юноши' : 'Девушки';
@@ -53,6 +55,12 @@
 	<ul>
 		<li><a href={participantsUrl}>&larr; список участников</a></li>
 	</ul>
+	{#if userIsEditor}
+		<ul>
+			<li><h3>{competition.title}</h3></li>
+		</ul>
+		<ul></ul>
+	{/if}
 </nav>
 <section class="grid">
 	<article class="card">

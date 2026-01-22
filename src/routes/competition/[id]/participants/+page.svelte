@@ -10,7 +10,7 @@
 	export let data: PageData;
 
 	$: competition = data.competition satisfies Competition;
-	$: grids = data.grids satisfies Array<Grid>
+	$: grids = data.grids satisfies Array<Grid>;
 	$: maleParticipantsUrl = $page.url + '/MALE';
 	$: femaleParticipantsUrl = $page.url + '/FEMALE';
 	$: userIsEditor = data.user ? data.user.roles.includes(Role.EDITOR) : false;
@@ -25,17 +25,35 @@
 	<ul>
 		<li><a href={competitionUrl}>&larr; на страницу турнира</a></li>
 	</ul>
+	{#if userIsEditor}
+		<ul>
+			<li><h3>{competition.title}</h3></li>
+		</ul>
+		<ul></ul>
+	{/if}
 </nav>
 <section class="participants">
 	<article class="card">
 		<h4 class="participants-list-title">Списки участников</h4>
 		<h6 class="male-participants">Юноши</h6>
 		<a href={maleParticipantsUrl}>Смотреть список всех участников</a>
-		<CategoryTable {competition} {grids} gender={Gender.MALE} categories={competition.categories.male} {userIsEditor} />
+		<CategoryTable
+			{competition}
+			{grids}
+			gender={Gender.MALE}
+			categories={competition.categories.male}
+			{userIsEditor}
+		/>
 
 		<h6 class="female-participants">Девушки</h6>
 		<a href={femaleParticipantsUrl}>Смотреть список всех участниц</a>
-		<CategoryTable {competition} {grids} gender={Gender.FEMALE} categories={competition.categories.female} {userIsEditor} />
+		<CategoryTable
+			{competition}
+			{grids}
+			gender={Gender.FEMALE}
+			categories={competition.categories.female}
+			{userIsEditor}
+		/>
 	</article>
 </section>
 
@@ -48,10 +66,10 @@
 		font-weight: 500;
 	}
 
-    @media all and (max-width: 1024px) {
+	@media all and (max-width: 1024px) {
 		.card {
 			align-items: center;
-            text-align: center;
+			text-align: center;
 		}
 	}
 </style>
